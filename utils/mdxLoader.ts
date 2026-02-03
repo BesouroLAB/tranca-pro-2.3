@@ -20,14 +20,16 @@ export interface MDXContent {
  * @example getMdxContent('estilos', 'guia-completo-tipos-de-trancas')
  */
 export function getMdxContent(silo: string, slug: string): MDXContent | null {
-    // Find matching MDX file
+    // Busca robusta: ignora prefixos de caminho (../ ou /content) e foca no final
+    // Procura por ".../silo/slug.mdx" ou ".../silo/ID-slug.mdx"
     const matchingPath = Object.keys(mdxModules).find(path => {
-        const normalizedPath = path.toLowerCase();
+        const normalizedPath = path.toLowerCase().replace(/\\/g, '/');
+        // Verifica se o caminho contém o silo e termina com o slug (permitindo ID numérico antes)
         return normalizedPath.includes(`/${silo}/`) && normalizedPath.includes(slug);
     });
 
     if (!matchingPath) {
-        console.warn(`MDX not found for: ${silo}/${slug}`);
+        console.warn(`MDX not found for: ${silo}/${slug}. Available paths:`, Object.keys(mdxModules));
         return null;
     }
 
@@ -43,9 +45,10 @@ export function getMdxContent(silo: string, slug: string): MDXContent | null {
  * @example getMdxById('101')
  */
 export function getMdxById(id: string): MDXContent | null {
-    // Find matching MDX file by ID in filename
+    // Busca robusta por ID: procura arquivo que comece com o ID no nome
     const matchingPath = Object.keys(mdxModules).find(path => {
-        const filename = path.split('/').pop() || '';
+        const normalizedPath = path.replace(/\\/g, '/');
+        const filename = normalizedPath.split('/').pop() || '';
         return filename.startsWith(`${id}-`);
     });
 

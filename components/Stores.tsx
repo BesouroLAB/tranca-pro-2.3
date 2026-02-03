@@ -21,19 +21,35 @@ const BRAZIL_STORES: Store[] = [
       { id: 'r4', author: 'Preta Lu', rating: 5, comment: 'Melhor lugar pra comprar acessórios: anéis, fios de ouro e agulhas.', date: '20/10/2026' }
     ]
   },
-  { id: 'sp4', name: 'Black Wig Brasil', address: 'R. 25 de Março, 641', city: 'São Paulo - SP', reviews: [] },
-  { id: 'sp5', name: 'Kabelo\'s', address: 'R. Varnhagen, 44', city: 'São Paulo - SP', reviews: [] },
+  {
+    id: 'sp4', name: 'Black Wig Brasil', address: 'R. 25 de Março, 641', city: 'São Paulo - SP', reviews: [
+      { id: 'r5', author: 'Ana Paula Styles', rating: 5, comment: 'Laces de qualidade absurda. O atendimento é VIP.', date: '01/11/2026' }
+    ]
+  },
+  {
+    id: 'sp5', name: 'Kabelo\'s', address: 'R. Varnhagen, 44', city: 'São Paulo - SP', reviews: [
+      { id: 'r6', author: 'Clara Braids', rating: 4, comment: 'Preço justo, mas a loja é meio apertada.', date: '28/10/2026' }
+    ]
+  },
   { id: 'sp6', name: 'Galeria do Rock (Lojas Afro)', address: 'Av. São João, 439', city: 'São Paulo - SP', reviews: [] },
   { id: 'sp7', name: 'Spasso Cosméticos', address: 'Várias unidades', city: 'Campinas - SP', reviews: [] },
 
   // RIO DE JANEIRO
-  { id: 'rj1', name: 'Perucas & Cia (Madureira)', address: 'Estr. do Portela, 99 (Mercadão)', city: 'Rio de Janeiro - RJ', reviews: [] },
+  {
+    id: 'rj1', name: 'Perucas & Cia (Madureira)', address: 'Estr. do Portela, 99 (Mercadão)', city: 'Rio de Janeiro - RJ', reviews: [
+      { id: 'r7', author: 'Jojo Todynho Cover', rating: 5, comment: 'Tem tudo de tudo no Mercadão. A Perucas & Cia salva demais!', date: '03/11/2026' }
+    ]
+  },
   { id: 'rj2', name: 'Palácio dos Cabelos', address: 'R. da Conceição, 15', city: 'Rio de Janeiro - RJ', reviews: [] },
   { id: 'rj3', name: 'Casa da Manicura', address: 'R. Senhor dos Passos, 246', city: 'Rio de Janeiro - RJ', reviews: [] },
   { id: 'rj4', name: 'Lojão do Cabeleireiro', address: 'R. Gonçalves Dias, 46', city: 'Rio de Janeiro - RJ', reviews: [] },
 
   // BAHIA
-  { id: 'ba1', name: 'Casa do Cabeleireiro', address: 'Av. Sete de Setembro', city: 'Salvador - BA', reviews: [] },
+  {
+    id: 'ba1', name: 'Casa do Cabeleireiro', address: 'Av. Sete de Setembro', city: 'Salvador - BA', reviews: [
+      { id: 'r8', author: 'Mainha Tranças', rating: 5, comment: 'O melhor preço da Avenida Sete. Pode confiar.', date: '15/10/2026' }
+    ]
+  },
   { id: 'ba2', name: 'Rainha dos Cabelos', address: 'R. Carlos Gomes', city: 'Salvador - BA', reviews: [] },
   { id: 'ba3', name: 'Mundo do Cabeleireiro', address: 'Shopping da Gente', city: 'Salvador - BA', reviews: [] },
 
@@ -47,7 +63,12 @@ const BRAZIL_STORES: Store[] = [
   { id: 'pe2', name: 'Atacadão dos Cosméticos', address: 'R. das Calçadas', city: 'Recife - PE', reviews: [] },
 
   // ONLINE / ATACADO NACIONAL
-  { id: 'web1', name: 'Ser Mulher Fibras (Site)', address: 'Entrega para todo Brasil', city: 'Online', reviews: [] },
+  {
+    id: 'web1', name: 'Ser Mulher Fibras (Site)', address: 'Entrega para todo Brasil', city: 'Online', reviews: [
+      { id: 'r9', author: 'Trancista Moderna', rating: 5, comment: 'Entrega rápida e fibra original. Compro sempre o pack com 10.', date: '01/11/2026' },
+      { id: 'r10', author: 'Lu Ateliê', rating: 4, comment: 'Frete poderia ser mais barato, mas a qualidade compensa.', date: '20/10/2026' }
+    ]
+  },
   { id: 'web2', name: 'Zhang Hair (Site)', address: 'Entrega para todo Brasil', city: 'Online', reviews: [] },
   { id: 'web3', name: 'Chique Chique Cabelos', address: 'Entrega para todo Brasil', city: 'Online', reviews: [] },
   { id: 'web4', name: 'Mercado Livre (Vários Fornecedores)', address: 'App/Site', city: 'Online', reviews: [] },

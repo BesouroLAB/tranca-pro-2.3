@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from './ThemeContext';
 import { useAuth } from './AuthContext';
-import { Moon, Sun, Save, User, Mail, Phone, Lock, LogOut, ShieldCheck, QrCode, Globe, Crown, MessageSquare, Briefcase, BarChart2, Calendar, ChevronLeft } from 'lucide-react';
+import { Moon, Sun, Save, User, Mail, Phone, Lock, LogOut, ShieldCheck, QrCode, Globe, Crown, MessageSquare, Briefcase, BarChart2, Calendar, ChevronLeft, DollarSign } from 'lucide-react';
 import { Transaction, Gender } from '../types';
 import { useNavigate } from 'react-router-dom';
 
@@ -311,7 +311,7 @@ const SettingsPage = () => {
         <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
           <div className="relative">
             <div className={`w-32 h-32 rounded-[2.5rem] flex items-center justify-center text-white text-5xl font-display border-4 border-white dark:border-stone-700 shadow-2xl transform group-hover:rotate-3 transition-transform duration-500 ${isPremium ? 'bg-gradient-to-br from-gold-400 via-amber-500 to-amber-700' : 'bg-stone-400'}`}>
-              {user?.name.charAt(0)}
+              {user?.name?.charAt(0) || 'U'}
             </div>
             <div className="absolute -bottom-2 -right-2 bg-white dark:bg-stone-800 p-2 rounded-2xl shadow-lg border border-stone-100 dark:border-stone-700">
               <ShieldCheck size={20} className="text-emerald-500" />
