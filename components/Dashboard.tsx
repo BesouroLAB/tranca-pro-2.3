@@ -118,41 +118,31 @@ const Dashboard = () => {
                setNextAppointments(nextList);
             }
          } catch (e) {
-            console.error("Failed to parse appointments from localStorage:", e);
+            console.error('Failed to parse appointments:', e);
          }
       }
-   }, []); // Run once on mount
+   }, []);
 
    return (
-
-      <div className="space-y-6 lg:space-y-0 lg:h-[calc(100vh-8rem)] lg:flex lg:flex-col animate-fade-in pb-24 lg:pb-0">
+      <div className="space-y-6 pb-8">
          {/* Header */}
-         <header className="flex items-center justify-between pt-4 lg:pt-0 lg:mb-8 shrink-0">
-            <div className="flex items-center gap-3">
-               <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gold-500/20 bg-stone-800 flex items-center justify-center text-stone-400">
-                  <UserIcon size={24} />
-               </div>
-               <div>
-                  <p className="text-[10px] text-stone-500 uppercase tracking-widest font-bold font-display">{greeting},</p>
-                  <h1 className="text-xl font-bold text-white tracking-tight">
-                     Operação: <span className="text-gold-500">{firstName}</span>
-                  </h1>
-               </div>
-            </div>
-            <div className="flex gap-2">
-            </div>
-         </header>
+         <div className="space-y-2">
+            <h1 className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white tracking-tight">
+               {greeting}, {firstName}! 👋
+            </h1>
+            <p className="text-sm text-stone-600 dark:text-stone-400 font-medium">
+               Aqui está um resumo do seu estúdio hoje
+            </p>
+         </div>
 
-         {/* Desktop Grid Layout */}
-         <div className="lg:flex-1 lg:grid lg:grid-cols-12 lg:gap-8 lg:min-h-0">
-
-            {/* Left Column (Main Stats & Next Appointment) */}
-            <div id="tour-dashboard-stats" className="lg:col-span-8 flex flex-col gap-6 lg:overflow-y-auto lg:pr-2 custom-scrollbar">
-
-               {/* Next Appointment Section (Priority #1) */}
-               <section className="flex-1 min-h-[350px] lg:min-h-[300px] bg-stone-900 border border-stone-800 p-6 md:p-8 rounded-[2.5rem] relative overflow-hidden flex flex-col justify-between group shadow-lg">
-                  <div className="flex justify-between items-start relative z-10 w-full mb-4">
-                     <div>
+         {/* Main Grid */}
+         <div className="grid lg:grid-cols-12 gap-6">
+            {/* Left Column (Main Content) */}
+            <div className="lg:col-span-8 space-y-6">
+               {/* Hero Card - Today's Client */}
+               <section id="tour-dashboard-stats" className="bg-gradient-to-br from-stone-900 to-stone-800 border border-stone-700 p-6 md:p-8 rounded-[2.5rem] relative overflow-hidden shadow-2xl">
+                  <div className="relative z-10 space-y-6">
+                     <div className="flex items-center justify-between">
                         <span className="text-[10px] font-bold text-gold-500 uppercase tracking-widest mb-1 block">Fluxo de Hoje</span>
                         <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Em Execução</h3>
                      </div>
@@ -242,6 +232,27 @@ const Dashboard = () => {
                      </div>
                   </button>
                </div>
+
+               {/* Blog Card - Acesso Rápido */}
+               <button
+                  onClick={() => navigate('/blog')}
+                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 border-2 border-purple-400 p-6 rounded-[2rem] flex items-center justify-between text-left active:scale-[0.98] transition-all hover:shadow-2xl hover:shadow-purple-500/30 group"
+               >
+                  <div className="flex items-center gap-4">
+                     <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center">
+                        <GraduationCap size={28} className="text-white" />
+                     </div>
+                     <div>
+                        <h4 className="text-lg font-black text-white mb-1">Blog Técnico</h4>
+                        <p className="text-xs text-purple-100 font-medium">Aprenda técnicas profissionais</p>
+                     </div>
+                  </div>
+                  <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M7 15L12 10L7 5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                     </svg>
+                  </div>
+               </button>
             </div>
 
             {/* Right Column (Quick Actions Sidebar) */}
@@ -287,7 +298,6 @@ const Dashboard = () => {
                </section>
             </div>
          </div>
-
       </div>
    );
 };
