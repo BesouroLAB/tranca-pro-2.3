@@ -31,7 +31,7 @@ import StickyFooterCTA from './StickyFooterCTA';
 
 const LandingPage = () => {
     const navigate = useNavigate();
-    const { updateProfile } = useAuth();
+    const { updateProfile, user } = useAuth();
     const [isVisible, setIsVisible] = useState(false);
     const [showOnboarding, setShowOnboarding] = useState(false);
     const [userName, setUserName] = useState('');
@@ -82,15 +82,20 @@ const LandingPage = () => {
 
     const handleStart = () => {
         setShowOnboarding(true);
-        // navigate('/dashboard');
     };
 
     const handleFinishOnboarding = () => {
-        if (userName.trim()) {
-            updateProfile({ name: userName });
-            localStorage.setItem('trancaProTour', 'true');
-            navigate('/dashboard');
+        if (!userName.trim()) return;
+
+        // If user is not ready yet (rare race condition), we shouldn't proceed
+        if (!user) {
+            console.warn("AuthContext user is not ready yet. Waiting...");
+            return;
         }
+
+        updateProfile({ name: userName });
+        localStorage.setItem('trancaProTour', 'true');
+        navigate('/dashboard');
     };
 
     return (
@@ -114,15 +119,15 @@ const LandingPage = () => {
                                 autoFocus
                                 value={userName}
                                 onChange={e => setUserName(e.target.value)}
-                                onKeyDown={e => e.key === 'Enter' && handleFinishOnboarding()}
+                                onKeyDown={e => e.key === 'Enter' && !!user && handleFinishOnboarding()}
                                 className="w-full bg-stone-950 border border-stone-800 text-white p-6 rounded-2xl focus:border-gold-500 outline-none transition-all placeholder:text-stone-700 text-center text-xl font-bold"
                             />
                             <button
                                 onClick={handleFinishOnboarding}
-                                disabled={!userName.trim()}
-                                className="w-full py-5 bg-gold-500 text-stone-950 font-black rounded-2xl shadow-xl shadow-gold-500/20 active:scale-[0.98] transition-all uppercase tracking-widest text-xs disabled:opacity-50"
+                                disabled={!userName.trim() || !user}
+                                className="w-full py-5 bg-gold-500 text-stone-950 font-black rounded-2xl shadow-xl shadow-gold-500/20 active:scale-[0.98] transition-all uppercase tracking-widest text-xs disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Entrar no Estúdio
+                                {user ? "Entrar no Estúdio" : "Iniciando sistema..."}
                             </button>
                         </div>
                     </div>

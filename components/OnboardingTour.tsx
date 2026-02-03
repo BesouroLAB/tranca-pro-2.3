@@ -67,14 +67,27 @@ const OnboardingTour = () => {
 
     useEffect(() => {
         const shouldStartTour = localStorage.getItem('trancaProTour');
+
         if (shouldStartTour === 'true') {
+            // If on landing page, do NOT start/show tour yet.
+            if (location.pathname === '/') {
+                setIsActive(false);
+                return;
+            }
+
             setIsActive(true);
-            setCurrentStep(0);
-            if (location.pathname !== STEPS[0].path) {
+
+            // Sync step with current URL
+            // This handles page refreshes and prevents resetting to step 0
+            const stepIndex = STEPS.findIndex(s => s.path === location.pathname);
+            if (stepIndex !== -1) {
+                setCurrentStep(stepIndex);
+            } else if (currentStep === 0 && location.pathname !== STEPS[0].path) {
+                // Only redirect to start if we are lost and arguably at the beginning
                 navigate(STEPS[0].path);
             }
         }
-    }, [location]);
+    }, [location, currentStep]);
 
     // Handle Window Resize
     useEffect(() => {
