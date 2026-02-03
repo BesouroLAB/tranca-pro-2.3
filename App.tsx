@@ -102,9 +102,8 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
         </div>
       </div>
 
-      {/* Sidebar - Hidden on mobile unless toggled by Bottom Menu */}
       <aside className={`
-        fixed inset-y-0 left-0 z-[90] w-64 bg-white dark:bg-stone-800 border-r border-stone-200 dark:border-stone-700 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-screen
+        fixed inset-y-0 left-0 z-[90] w-64 bg-white dark:bg-stone-800 border-r border-stone-200 dark:border-stone-700 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-screen flex flex-col overflow-y-auto custom-scrollbar
         ${isSidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}
       `}>
         <div className="h-16 flex items-center justify-between px-6 border-b border-stone-100 dark:border-stone-700">
