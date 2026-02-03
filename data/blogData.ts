@@ -29,7 +29,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
         silo: 'estilos',
         title: 'Tranças Afro: Os Principais Tipos, Nomes e Tendências para 2026',
         excerpt: 'Conheça os principais tipos de tranças afro: Box Braids, Nagô, Faux Locs e mais. Descubra qual estilo dura mais e como precificar cada um.',
-        image: '/images/blog/estilos-trancas.jpg',
+        image: '/images/blog/estilos-trancas.png',
         author: 'Equipe Trança Pro',
         date: '02 Fev 2026',
         type: 'pillar'
@@ -66,7 +66,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
         silo: 'gestao',
         title: 'De Trancista a Empresária: O Guia Completo de Gestão para um Salão Rentável',
         excerpt: 'Aprenda a gerir seu salão, organizar a agenda, formalizar o negócio (MEI) e lucrar de verdade.',
-        image: '/images/blog/gestao-trancista.jpg',
+        image: '/images/blog/gestao-trancista.png',
         author: 'Equipe Trança Pro',
         date: '02 Fev 2026',
         type: 'pillar'
@@ -77,7 +77,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
         silo: 'gestao',
         title: 'Como Precificar Tranças: O Cálculo Correto para Parar de Pagar para Trabalhar',
         excerpt: 'Aprenda o cálculo correto de como precificar tranças e usar a Calculadora do Trança Pro.',
-        image: '/images/blog/precificacao-trancas.jpg',
+        image: '/images/blog/precificacao-trancas.png',
         author: 'Equipe Trança Pro',
         date: '02 Fev 2026',
         type: 'satellite'

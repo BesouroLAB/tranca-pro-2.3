@@ -2,7 +2,13 @@
 // Maps slugs to dynamically imported MDX modules
 
 // Import all MDX files at build time (Vite glob import)
-const mdxModules = import.meta.glob('/content/blog/**/*.mdx', { eager: true }) as Record<string, { default: React.ComponentType; frontmatter?: Record<string, unknown> }>;
+// We use relative path to ensure Vite finds them regardless of root config
+const mdxModules = import.meta.glob(['/content/blog/**/*.mdx', '../content/blog/**/*.mdx'], { eager: true }) as Record<string, { default: React.ComponentType; frontmatter?: Record<string, unknown> }>;
+
+console.log('MDX Modules loaded:', Object.keys(mdxModules).length);
+if (Object.keys(mdxModules).length === 0) {
+    console.error('CRITICAL: No MDX modules found in /content/blog or ../content/blog. Check project structure.');
+}
 
 export interface MDXContent {
     Component: React.ComponentType;

@@ -267,7 +267,7 @@ const App = () => {
               <Route path="/" element={<LandingPage />} />
               <Route path="/blog" element={<BlogHome />} />
               <Route path="/blog/categoria/:siloId" element={<BlogHome />} />
-              <Route path="/blog/:silo/:id" element={<BlogDetail />} />
+              <Route path="/blog/:silo/:slug" element={<BlogDetail />} />
               <Route path="/termos" element={<Terms />} />
               <Route path="/privacidade" element={<Privacy />} />
               <Route path="/dashboard" element={<Dashboard />} />
