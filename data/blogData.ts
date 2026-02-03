@@ -88,7 +88,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
         silo: 'gestao',
         title: 'Kit Trancista Iniciante: A Lista Completa do Que Você Precisa',
         excerpt: 'Materiais essenciais, melhores marcas de Jumbo e o que você NÃO precisa comprar agora.',
-        image: '/images/blog/kit-trancista.jpg',
+        image: '/images/blog/kit-trancista.png',
         author: 'Equipe Trança Pro',
         date: '02 Fev 2026',
         type: 'satellite'
@@ -101,7 +101,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
         silo: 'materiais',
         title: 'Guia de Materiais: Jumbo, Kanekalon, Orgânico e Biofibra',
         excerpt: 'Entenda as diferenças, qual a melhor fibra para cada estilo de trança e como calcular a quantidade certa.',
-        image: '/images/blog/guia-fibras.jpg',
+        image: '/images/blog/guia-fibras.png',
         author: 'Equipe Trança Pro',
         date: '02 Fev 2026',
         type: 'pillar'
@@ -112,7 +112,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
         silo: 'materiais',
         title: 'Melhores Pomadas Modeladoras para Tranças',
         excerpt: 'Ranking das pomadas que não deixam resíduo branco e garantem acabamento impecável.',
-        image: '/images/blog/pomadas.jpg',
+        image: '/images/blog/pomadas.png',
         author: 'Equipe Trança Pro',
         date: '02 Fev 2026',
         type: 'satellite'
@@ -123,7 +123,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
         silo: 'materiais',
         title: 'Melhores Marcas de Jumbo: Comparativo Completo',
         excerpt: 'Ser Mulher, Super X ou Zhang Hair? Comparamos preço, qualidade e rendimento.',
-        image: '/images/blog/marcas-jumbo.jpg',
+        image: '/images/blog/marcas-jumbo.png',
         author: 'Equipe Trança Pro',
         date: '02 Fev 2026',
         type: 'satellite'
@@ -136,7 +136,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
         silo: 'saude',
         title: 'Saúde Capilar com Tranças: O Guia Completo de Cuidados, Riscos e Prevenção',
         excerpt: 'Trança estraga o cabelo? Descubra como manter a saúde capilar em dia e evitar a quebra.',
-        image: '/images/blog/saude-capilar.jpg',
+        image: '/images/blog/saude-capilar.png',
         author: 'Equipe Trança Pro',
         date: '02 Fev 2026',
         type: 'pillar'
@@ -159,7 +159,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
         silo: 'saude',
         title: 'Como Lavar as Tranças: O Passo a Passo para Higienizar sem Estragar',
         excerpt: 'Passo a passo para higienizar o couro cabeludo, evitar o frizz e secar corretamente.',
-        image: '/images/blog/lavar-trancas.jpg',
+        image: '/images/blog/lavar-trancas.png',
         author: 'Equipe Trança Pro',
         date: '02 Fev 2026',
         type: 'satellite'
