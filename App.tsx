@@ -41,6 +41,8 @@ import SettingsPage from './components/SettingsPage';
 import MobileBottomNav from './components/MobileBottomNav';
 import Clientes from './components/Clientes';
 import Checkout from './components/Checkout';
+import TermsOfUse from './components/TermsOfUse';
+import PrivacyPolicy from './components/PrivacyPolicy';
 
 // Fix: Make children required as Layout is a wrapper
 const Layout = ({ children }: { children?: React.ReactNode }) => {
@@ -291,6 +293,8 @@ const App = () => {
               <Route path="/escaneamento/foto" element={<PhotoAnalysis />} />
               <Route path="/planos" element={<Plans />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/termos" element={<TermsOfUse />} />
+              <Route path="/privacidade" element={<PrivacyPolicy />} />
               <Route path="/configuracoes" element={<SettingsPage />} />
             </Routes>
           </Layout>
