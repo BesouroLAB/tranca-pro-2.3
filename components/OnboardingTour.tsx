@@ -58,12 +58,13 @@ const OnboardingTour = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isActive, setIsActive] = useState(false);
+    const [isReady, setIsReady] = useState(false); // Elemento alvo existe no DOM?
     const [currentStep, setCurrentStep] = useState(0);
     const [spotlight, setSpotlight] = useState<{ x: number, y: number, w: number, h: number } | null>(null);
-    const [tooltipPos, setTooltipPos] = useState<{ top: number, left: number } | null>(null);
     const [isTransitioning, setIsTransitioning] = useState(false);
-    // State to force re-render if window resizes
-    const [, setWindowSize] = useState([window.innerWidth, window.innerHeight]);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+    const [retryCount, setRetryCount] = useState(0);
+    const MAX_RETRIES = 10;
 
     useEffect(() => {
         const shouldStartTour = localStorage.getItem('trancaProTour');
@@ -88,65 +89,70 @@ const OnboardingTour = () => {
         }
     }, [location]);
 
-    // Handle Window Resize
+    // Handle Window Resize e detectar Mobile
     useEffect(() => {
-        const handleResize = () => setWindowSize([window.innerWidth, window.innerHeight]);
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 1024);
+        };
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Update Spotlight Position Logic
+    // Polling para verificar se o elemento alvo existe no DOM
     useEffect(() => {
-        if (!isActive) return;
+        if (!isActive) {
+            setIsReady(false);
+            setRetryCount(0);
+            return;
+        }
 
-        const updateSpotlight = () => {
-            const step = STEPS[currentStep];
+        const step = STEPS[currentStep];
+        if (!step) return;
+
+        const checkElement = () => {
             const target = document.getElementById(step.targetId);
-
             if (target) {
-                const rect = target.getBoundingClientRect();
-                const padding = 10; // Padding around element
-
-                setSpotlight({
-                    x: rect.left - padding,
-                    y: rect.top - padding,
-                    w: rect.width + (padding * 2),
-                    h: rect.height + (padding * 2)
-                });
-
-                // Calculate tooltip position
-                // Default: below
-                let tooltipTop = rect.bottom + 20;
-                // If too low (bottom screen), place above
-                if (tooltipTop + 300 > window.innerHeight) {
-                    tooltipTop = rect.top - 320; // Approx height needed
-                }
-
-                setTooltipPos({
-                    top: Math.max(20, tooltipTop), // Ensure min top
-                    left: window.innerWidth / 2 // Always center horizontally for mobile-first
-                });
+                setIsReady(true);
+                setRetryCount(0);
+            } else if (retryCount < MAX_RETRIES) {
+                setRetryCount(prev => prev + 1);
             } else {
-                // If target not found (maybe loading), retry shortly or fallback to center screen
-                // For now, center fallback
-                setSpotlight({
-                    x: window.innerWidth / 2 - 150,
-                    y: window.innerHeight / 2 - 150,
-                    w: 300,
-                    h: 300
-                });
-                setTooltipPos({
-                    top: window.innerHeight / 2 + 160,
-                    left: window.innerWidth / 2
-                });
+                // Máximo de tentativas atingido, mostrar tour sem spotlight
+                setIsReady(true);
             }
         };
 
-        // Small delay to allow DOM render
-        const timer = setTimeout(updateSpotlight, 300);
+        const timer = setTimeout(checkElement, 200);
         return () => clearTimeout(timer);
+    }, [isActive, currentStep, retryCount]);
 
-    }, [currentStep, isActive, location.pathname, window.innerWidth, window.innerHeight]);
+    // Update Spotlight Position Logic
+    useEffect(() => {
+        if (!isActive || !isReady) return;
+
+        const step = STEPS[currentStep];
+        const target = document.getElementById(step.targetId);
+
+        if (target) {
+            const rect = target.getBoundingClientRect();
+            const padding = 12;
+
+            setSpotlight({
+                x: rect.left - padding,
+                y: rect.top - padding,
+                w: rect.width + (padding * 2),
+                h: rect.height + (padding * 2)
+            });
+        } else {
+            // Fallback: centralizado na tela
+            setSpotlight({
+                x: window.innerWidth / 2 - 150,
+                y: window.innerHeight / 3 - 100,
+                w: 300,
+                h: 200
+            });
+        }
+    }, [currentStep, isActive, isReady, isMobile]);
 
 
     const handleNext = () => {
@@ -176,18 +182,25 @@ const OnboardingTour = () => {
         }
     };
 
-    if (!isActive || !spotlight || !tooltipPos) return null;
+    if (!isActive || !isReady || !spotlight) return null;
 
     const step = STEPS[currentStep];
 
     // SVG Path to create cutout (donut hole)
-    // M0 0 Hw Vh H0 Z -> Outer screen rect
-    // M(x) (y) h(w) v(h) h-(w) z -> Inner target rect (cutout)
     const overlayPath = `
         M0 0 H${window.innerWidth} V${window.innerHeight} H0 Z 
         M${spotlight.x} ${spotlight.y} 
         h${spotlight.w} v${spotlight.h} h-${spotlight.w} z
     `;
+
+    // Tooltip Position: Mobile = fixo embaixo, Desktop = dinâmico
+    const tooltipStyle = isMobile
+        ? { bottom: 24, left: '50%', transform: 'translateX(-50%)' }
+        : {
+            top: Math.min(spotlight.y + spotlight.h + 20, window.innerHeight - 320),
+            left: Math.max(16, Math.min(spotlight.x + spotlight.w / 2, window.innerWidth - 200)),
+            transform: 'translateX(-50%)'
+        };
 
     return (
         <div className="fixed inset-0 z-[200] pointer-events-none font-sans">
@@ -195,14 +208,14 @@ const OnboardingTour = () => {
             <svg className="absolute inset-0 w-full h-full pointer-events-auto transition-all duration-500 ease-in-out">
                 <path
                     d={overlayPath}
-                    fill="rgba(28, 25, 23, 0.85)" // stone-950 with 85% opacity
+                    fill="rgba(28, 25, 23, 0.90)"
                     fillRule="evenodd"
                 />
             </svg>
 
             {/* Glowing Border around Target */}
             <div
-                className="absolute border-2 border-gold-500 shadow-[0_0_30px_rgba(234,179,8,0.5)] rounded-2xl pointer-events-none transition-all duration-500 ease-in-out"
+                className="absolute border-2 border-gold-500 shadow-[0_0_40px_rgba(234,179,8,0.6)] rounded-3xl pointer-events-none transition-all duration-500 ease-in-out"
                 style={{
                     left: spotlight.x,
                     top: spotlight.y,
@@ -214,14 +227,12 @@ const OnboardingTour = () => {
             {/* Tooltip Card */}
             <div
                 className={`
-                    absolute -translate-x-1/2 w-[90%] max-w-sm pointer-events-auto
+                    absolute w-[92%] max-w-md pointer-events-auto
                     transition-all duration-500 ease-in-out
                     ${isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}
+                    ${isMobile ? '' : ''}
                 `}
-                style={{
-                    top: tooltipPos.top,
-                    left: tooltipPos.left
-                }}
+                style={tooltipStyle as React.CSSProperties}
             >
                 <div className="bg-stone-900 border border-gold-500/30 rounded-[2rem] p-6 shadow-2xl relative overflow-hidden backdrop-blur-xl">
                     {/* Progress */}
