@@ -175,11 +175,15 @@ const Checkout = () => {
                         </div>
                     </div>
 
-                    {/* FAQ */}
-                    <div className="mt-16 text-center">
+                    {/* FAQ & Legal */}
+                    <div className="mt-16 pb-10 text-center space-y-4">
                         <p className="text-stone-500 text-sm">
                             Dúvidas? Entre em contato: <a href="mailto:suporte@trancapro.com" className="text-gold-500 hover:underline">suporte@trancapro.com</a>
                         </p>
+                        <div className="flex items-center justify-center gap-6 text-[10px] uppercase font-bold tracking-widest text-stone-600">
+                            <button onClick={() => navigate('/termos')} className="hover:text-gold-500 transition-colors">Termos de Uso</button>
+                            <button onClick={() => navigate('/privacidade')} className="hover:text-gold-500 transition-colors">Política de Privacidade</button>
+                        </div>
                     </div>
                 </div>
             </main>
