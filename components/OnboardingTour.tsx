@@ -75,19 +75,18 @@ const OnboardingTour = () => {
                 return;
             }
 
-            setIsActive(true);
-
             // Sync step with current URL
-            // This handles page refreshes and prevents resetting to step 0
             const stepIndex = STEPS.findIndex(s => s.path === location.pathname);
             if (stepIndex !== -1) {
                 setCurrentStep(stepIndex);
-            } else if (currentStep === 0 && location.pathname !== STEPS[0].path) {
-                // Only redirect to start if we are lost and arguably at the beginning
-                navigate(STEPS[0].path);
+                setIsActive(true);
+            } else {
+                // If we are on a page that is NOT a step (e.g. Blog), pause the tour (don't show)
+                // But do NOT redirect/harass the user.
+                setIsActive(false);
             }
         }
-    }, [location, currentStep]);
+    }, [location]);
 
     // Handle Window Resize
     useEffect(() => {

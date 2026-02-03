@@ -90,22 +90,29 @@ const Dashboard = () => {
 
    useEffect(() => {
       // Read appointments directly from localStorage to ensure dashboard is live
+      // Read appointments directly from localStorage to ensure dashboard is live
       const saved = localStorage.getItem('appointments');
       if (saved) {
-         const allAppts: Appointment[] = JSON.parse(saved);
-         const today = new Date().toISOString().split('T')[0];
+         try {
+            const allAppts = JSON.parse(saved);
+            if (Array.isArray(allAppts)) {
+               const today = new Date().toISOString().split('T')[0];
 
-         const todayList = allAppts
-            .filter(a => a.date === today)
-            .sort((a, b) => a.time.localeCompare(b.time));
+               const todayList = (allAppts as Appointment[])
+                  .filter(a => a.date === today)
+                  .sort((a, b) => a.time.localeCompare(b.time));
 
-         const nextList = allAppts
-            .filter(a => a.date > today)
-            .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
-            .slice(0, 3); // Only show top 3 next
+               const nextList = (allAppts as Appointment[])
+                  .filter(a => a.date > today)
+                  .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
+                  .slice(0, 3); // Only show top 3 next
 
-         setTodaysAppointments(todayList);
-         setNextAppointments(nextList);
+               setTodaysAppointments(todayList);
+               setNextAppointments(nextList);
+            }
+         } catch (e) {
+            console.error("Failed to parse appointments from localStorage:", e);
+         }
       }
    }, []); // Run once on mount
 

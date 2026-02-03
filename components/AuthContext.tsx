@@ -76,10 +76,10 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
         if (!parsed.plan) parsed.plan = 'free';
         if (typeof parsed.aiUsageCount !== 'number') parsed.aiUsageCount = 0;
         if (!parsed.communicationStyle) parsed.communicationStyle = 'parceira';
-        
+
         // Upgrade existing users to have services list if they don't
         if (parsed.publicProfile && !parsed.publicProfile.services) {
-            parsed.publicProfile.services = DEFAULT_BRAID_CATALOG;
+          parsed.publicProfile.services = DEFAULT_BRAID_CATALOG;
         }
 
         setUser(parsed);
@@ -99,7 +99,12 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
 
     const savedFeedbacks = localStorage.getItem('appFeedbacks');
     if (savedFeedbacks) {
-      setFeedbacks(JSON.parse(savedFeedbacks));
+      try {
+        setFeedbacks(JSON.parse(savedFeedbacks));
+      } catch (e) {
+        console.error("Failed to parse feedbacks:", e);
+        setFeedbacks([]);
+      }
     }
   }, []);
 
@@ -135,13 +140,13 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
       aiUsageCount: 0,
       communicationStyle: 'parceira',
       publicProfile: {
-         username: 'user' + Date.now(),
-         bio: '',
-         whatsapp: '',
-         policies: '',
-         workingHours: DEFAULT_WORKING_HOURS,
-         services: DEFAULT_BRAID_CATALOG,
-         googleSyncEnabled: false
+        username: 'user' + Date.now(),
+        bio: '',
+        whatsapp: '',
+        policies: '',
+        workingHours: DEFAULT_WORKING_HOURS,
+        services: DEFAULT_BRAID_CATALOG,
+        googleSyncEnabled: false
       }
     };
     saveUser(googleUser);
@@ -163,13 +168,13 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
       aiUsageCount: 0,
       communicationStyle: 'parceira',
       publicProfile: {
-         username: data.name.toLowerCase().replace(/\s+/g, ''),
-         bio: '',
-         whatsapp: data.phone,
-         policies: '',
-         workingHours: DEFAULT_WORKING_HOURS,
-         services: DEFAULT_BRAID_CATALOG,
-         googleSyncEnabled: false
+        username: data.name.toLowerCase().replace(/\s+/g, ''),
+        bio: '',
+        whatsapp: data.phone,
+        policies: '',
+        workingHours: DEFAULT_WORKING_HOURS,
+        services: DEFAULT_BRAID_CATALOG,
+        googleSyncEnabled: false
       }
     };
     setUser(newUser); // Don't save to localstorage yet until verified
@@ -177,13 +182,13 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
   };
 
   const sendVerificationCode = async (contact: string, type: 'email' | 'whatsapp'): Promise<string> => {
-     await new Promise(resolve => setTimeout(resolve, 1500));
-     const code = Math.floor(1000 + Math.random() * 9000).toString();
-     setVerificationCode(code);
-     setTimeout(() => {
-        alert(`[SIMULAÇÃO] Seu código de verificação ${type === 'whatsapp' ? 'WhatsApp' : 'E-mail'} é: ${code}`);
-     }, 500);
-     return code;
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    const code = Math.floor(1000 + Math.random() * 9000).toString();
+    setVerificationCode(code);
+    setTimeout(() => {
+      alert(`[SIMULAÇÃO] Seu código de verificação ${type === 'whatsapp' ? 'WhatsApp' : 'E-mail'} é: ${code}`);
+    }, 500);
+    return code;
   };
 
   const verifyCode = async (inputCode: string): Promise<boolean> => {
@@ -213,27 +218,27 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
 
   const updatePublicProfile = (data: Partial<PublicProfileSettings>) => {
     if (user && user.publicProfile) {
-      const updated = { 
-        ...user, 
-        publicProfile: { ...user.publicProfile, ...data } 
+      const updated = {
+        ...user,
+        publicProfile: { ...user.publicProfile, ...data }
       };
       saveUser(updated);
     } else if (user) {
-       // Initialize if undefined
-       const updated = {
-         ...user,
-         publicProfile: {
-            username: user.name.toLowerCase().replace(/\s+/g, ''),
-            bio: '',
-            whatsapp: user.phone || '',
-            policies: '',
-            workingHours: DEFAULT_WORKING_HOURS,
-            services: DEFAULT_BRAID_CATALOG,
-            googleSyncEnabled: false,
-            ...data
-         }
-       };
-       saveUser(updated);
+      // Initialize if undefined
+      const updated = {
+        ...user,
+        publicProfile: {
+          username: user.name.toLowerCase().replace(/\s+/g, ''),
+          bio: '',
+          whatsapp: user.phone || '',
+          policies: '',
+          workingHours: DEFAULT_WORKING_HOURS,
+          services: DEFAULT_BRAID_CATALOG,
+          googleSyncEnabled: false,
+          ...data
+        }
+      };
+      saveUser(updated);
     }
   };
 
@@ -250,7 +255,7 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
   const checkAiLimit = (): boolean => {
     if (!user) return false;
     if (user.plan === 'premium') return true;
-    
+
     // If usage hasn't started yet, we allow it (the session will start on the interaction)
     if (!user.aiSessionStart) return true;
 
@@ -270,17 +275,17 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
   // Atomic function to handle AI Interaction state to avoid race conditions
   const recordAiInteraction = () => {
     if (!user) return;
-    
+
     const now = Date.now();
     let updatedUser = { ...user };
     let changed = false;
 
     // 1. Start Session Logic
     if (user.plan !== 'premium') {
-        if (!user.aiSessionStart || (now - user.aiSessionStart > TOTAL_CYCLE_MS)) {
-            updatedUser.aiSessionStart = now;
-            changed = true;
-        }
+      if (!user.aiSessionStart || (now - user.aiSessionStart > TOTAL_CYCLE_MS)) {
+        updatedUser.aiSessionStart = now;
+        changed = true;
+      }
     }
 
     // 2. Increment Usage Count
@@ -288,17 +293,17 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
     changed = true;
 
     if (changed) {
-        saveUser(updatedUser);
+      saveUser(updatedUser);
     }
   };
 
   const getAiStatus = () => {
     if (!user || user.plan === 'premium') {
-        return { status: 'premium', msRemaining: 0 } as const;
+      return { status: 'premium', msRemaining: 0 } as const;
     }
 
     if (!user.aiSessionStart) {
-        return { status: 'idle', msRemaining: USAGE_DURATION_MS } as const;
+      return { status: 'idle', msRemaining: USAGE_DURATION_MS } as const;
     }
 
     const now = Date.now();
@@ -306,12 +311,12 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
 
     // If cycle completed ( > 5h), we are back to IDLE (waiting for trigger)
     if (elapsed > TOTAL_CYCLE_MS) {
-        return { status: 'idle', msRemaining: USAGE_DURATION_MS } as const;
+      return { status: 'idle', msRemaining: USAGE_DURATION_MS } as const;
     }
 
     // Active Phase ( < 2h )
     if (elapsed < USAGE_DURATION_MS) {
-        return { status: 'active', msRemaining: USAGE_DURATION_MS - elapsed } as const;
+      return { status: 'active', msRemaining: USAGE_DURATION_MS - elapsed } as const;
     }
 
     // Blocked Phase ( 2h - 5h )
@@ -340,14 +345,14 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      isAuthenticated: !!user?.verified, 
-      login, 
+    <AuthContext.Provider value={{
+      user,
+      isAuthenticated: !!user?.verified,
+      login,
       loginWithGoogle,
-      register, 
-      verifyCode, 
-      logout, 
+      register,
+      verifyCode,
+      logout,
       updateProfile,
       updatePublicProfile,
       sendVerificationCode,
