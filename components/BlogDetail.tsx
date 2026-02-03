@@ -69,13 +69,17 @@ const BlogDetail = () => {
     const { silo, slug } = useParams();
     const navigate = useNavigate();
 
+    console.log('[BlogDetail] Params:', { silo, slug });
+
     // Find post by slug in metadata
     const post = BLOG_POSTS.find(p => p.slug === slug);
     const siloData = SILOS.find(s => s.id === silo);
+    console.log('[BlogDetail] Post found:', post?.title, 'ID:', post?.id);
 
     // Try to load MDX content
     const mdxContent = post ? getMdxById(post.id) : null;
     const MdxComponent = mdxContent?.Component;
+    console.log('[BlogDetail] MDX loaded:', !!MdxComponent, 'Content:', mdxContent);
 
     if (!post) {
         return (
