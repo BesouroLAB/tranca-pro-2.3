@@ -43,6 +43,7 @@ import Clientes from './components/Clientes';
 import Checkout from './components/Checkout';
 import TermsOfUse from './components/TermsOfUse';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import SiloLanding from './components/SiloLanding';
 
 // Fix: Make children required as Layout is a wrapper
 const Layout = ({ children }: { children?: React.ReactNode }) => {
@@ -273,8 +274,8 @@ const App = () => {
             <OnboardingTour />
             <Routes>
               <Route path="/" element={<LandingPage />} />
-              <Route path="/blog" element={<BlogHome />} />
-              <Route path="/blog/categoria/:siloId" element={<BlogHome />} />
+              <Route path="/blog" element={<BlogListing />} />
+              <Route path="/blog/:silo" element={<SiloLanding />} />
               <Route path="/blog/:silo/:slug" element={<BlogDetail />} />
               <Route path="/termos" element={<Terms />} />
               <Route path="/privacidade" element={<Privacy />} />
