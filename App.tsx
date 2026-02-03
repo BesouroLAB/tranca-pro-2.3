@@ -274,7 +274,7 @@ const App = () => {
             <OnboardingTour />
             <Routes>
               <Route path="/" element={<LandingPage />} />
-              <Route path="/blog" element={<BlogListing />} />
+              <Route path="/blog" element={<BlogHome />} />
               <Route path="/blog/:silo" element={<SiloLanding />} />
               <Route path="/blog/:silo/:slug" element={<BlogDetail />} />
               <Route path="/termos" element={<Terms />} />
