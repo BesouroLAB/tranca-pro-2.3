@@ -140,8 +140,8 @@ const Dashboard = () => {
             {/* Left Column (Main Content) */}
             <div className="lg:col-span-8 space-y-6">
                {/* Hero Card - Today's Client */}
-               <section id="tour-dashboard-stats" className="bg-gradient-to-br from-stone-900 to-stone-800 border border-stone-700 p-6 md:p-8 rounded-[2.5rem] relative overflow-hidden shadow-2xl">
-                  <div className="relative z-10 space-y-6">
+               <section id="tour-dashboard-stats" className="bg-gradient-to-br from-stone-900 to-stone-800 border border-stone-700 p-4 md:p-6 rounded-[2.5rem] relative overflow-hidden shadow-2xl">
+                  <div className="relative z-10 space-y-4">
                      <div className="flex items-center justify-between">
                         <span className="text-[10px] font-bold text-gold-500 uppercase tracking-widest mb-1 block">Fluxo de Hoje</span>
                         <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Em Execução</h3>
@@ -176,7 +176,7 @@ const Dashboard = () => {
                      </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-6 md:mt-8 relative z-10 w-full">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 mt-4 relative z-10 w-full">
                      <button className="py-3 md:py-4 rounded-xl md:rounded-2xl bg-stone-800/80 hover:bg-stone-800 text-white text-xs md:text-sm font-bold transition-all flex items-center justify-center gap-2 border border-stone-700/50 backdrop-blur-sm sm:order-last">
                         <Smile size={18} /> Mensagem
                      </button>
@@ -193,6 +193,33 @@ const Dashboard = () => {
 
                   {/* Decorative Gradient */}
                   <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+               </section>
+
+               {/* Checklist Diário */}
+               <section className="bg-stone-900/50 border border-stone-800 p-4 md:p-5 rounded-[2rem] shrink-0">
+                  <h3 className="text-[10px] font-bold text-stone-500 uppercase tracking-[0.2em] mb-3">Tarefas do Dia</h3>
+                  <div className="space-y-2">
+                     {[
+                        { label: 'Confirmar agendamentos', checked: true },
+                        { label: 'Verificar estoque de materiais', checked: false },
+                        { label: 'Comprar cabelo para próxima semana', checked: false },
+                        { label: 'Postar fotos no Instagram', checked: true }
+                     ].map((task, i) => (
+                        <label key={i} className="flex items-center gap-2.5 p-2.5 rounded-xl bg-stone-800/50 border border-stone-700/30 hover:bg-stone-800 transition-all cursor-pointer group">
+                           <input
+                              type="checkbox"
+                              defaultChecked={task.checked}
+                              className="w-4 h-4 rounded border-2 border-stone-600 checked:bg-gold-500 checked:border-gold-500 transition-all cursor-pointer"
+                           />
+                           <span className={`text-xs font-medium flex-1 ${task.checked ? 'text-stone-500 line-through' : 'text-stone-300'}`}>
+                              {task.label}
+                           </span>
+                        </label>
+                     ))}
+                  </div>
+                  <button onClick={() => navigate('/materiais')} className="w-full mt-3 py-2 rounded-lg bg-stone-800 hover:bg-stone-750 text-gold-500 text-[10px] font-bold uppercase tracking-wider transition-all border border-stone-700">
+                     Calculadora de Materiais →
+                  </button>
                </section>
 
                {/* Metric Cards Row (Context) */}
