@@ -580,7 +580,7 @@ const LandingPage = () => {
                                     excerpt: 'Estratégias de precificação que fazem você lucrar de verdade.',
                                     category: 'Gestão',
                                     link: '/blog/gestao/como-precificar-trancas-sem-prejuizo',
-                                    image: '/images/blog/precificacao-trancas.jpg'
+                                    image: '/images/blog/precificacao-trancas.png'
                                 },
                                 {
                                     title: 'Alopecia por Tração: Prevenção e Tratamento',

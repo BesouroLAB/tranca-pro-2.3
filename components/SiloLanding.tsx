@@ -8,8 +8,8 @@ const SiloLanding = () => {
     const navigate = useNavigate();
 
     // Find silo data
-    const siloData = SILOS.find(s => s.id === silo);
-    const siloPosts = BLOG_POSTS.filter(p => p.silo === silo);
+    const siloData = SILOS.find(s => s.id.toLowerCase() === silo?.toLowerCase());
+    const siloPosts = BLOG_POSTS.filter(p => p.silo.toLowerCase() === silo?.toLowerCase());
     const pillarPost = siloPosts.find(p => p.type === 'pillar');
     const satellitePosts = siloPosts.filter(p => p.type === 'satellite');
 

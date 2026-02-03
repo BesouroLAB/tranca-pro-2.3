@@ -12,7 +12,9 @@ import {
   Menu,
   X,
   ScanLine,
-  Users
+  Users,
+  GraduationCap,
+  Package
 } from 'lucide-react';
 import { ThemeProvider } from './components/ThemeContext';
 import { AuthProvider } from './components/AuthContext';
@@ -44,6 +46,7 @@ import Checkout from './components/Checkout';
 import TermsOfUse from './components/TermsOfUse';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import SiloLanding from './components/SiloLanding';
+import Inventory from './components/Inventory';
 
 // Fix: Make children required as Layout is a wrapper
 const Layout = ({ children }: { children?: React.ReactNode }) => {
@@ -81,6 +84,9 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
     { icon: Calculator, label: 'Simulador de Margem', path: '/precificacao' },
     { icon: Calendar, label: 'Gestão de Fluxo', path: '/agenda' },
     { icon: DollarSign, label: 'Controle de Caixa', path: '/financeiro' },
+    { icon: Users, label: 'CRM Clientes', path: '/crm' },
+    { icon: GraduationCap, label: 'Blog Técnico', path: '/blog' },
+    { icon: Package, label: 'Controle de Estoque', path: '/estoque' },
     { icon: ScanLine, label: 'Análise de Carreira', path: '/escaneamento' },
     { icon: BookOpen, label: 'Hub de Conhecimento', path: '/aprender' },
     { icon: Calculator, label: 'Insumos e Estoque', path: '/materiais' },
@@ -282,8 +288,9 @@ const App = () => {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/precificacao" element={<PricingCalculator />} />
               <Route path="/agenda" element={<Agenda />} />
-              <Route path="/clientes" element={<Clientes />} />
+              <Route path="/crm" element={<Clientes />} />
               <Route path="/financeiro" element={<Finance />} />
+              <Route path="/estoque" element={<Inventory />} />
               <Route path="/materiais" element={<MaterialsCalculator />} />
               <Route path="/aprender" element={<Learn />} />
               <Route path="/lojas" element={<Stores />} />

@@ -35,7 +35,7 @@ const BlogHome = () => {
     const filteredArticles = BLOG_POSTS.filter(art => {
         const matchesSearch = art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             art.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesSilo = activeSilo === 'all' || art.silo === activeSilo;
+        const matchesSilo = activeSilo === 'all' || art.silo.toLowerCase() === activeSilo?.toLowerCase();
         return matchesSearch && matchesSilo;
     });
 

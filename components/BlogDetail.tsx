@@ -4,89 +4,98 @@ import { ChevronLeft, Calendar, User, Share2, BookOpen, ArrowRight, Clock } from
 import { MDXProvider } from '@mdx-js/react';
 
 import { BLOG_POSTS, SILOS, BlogPostMeta } from '../data/blogData';
-import { getMdxById } from '../utils/mdxLoader';
+import { getMdxById, getAllMdxPaths } from '../utils/mdxLoader';
+
+// Simple Error Boundary
+class ErrorBoundary extends React.Component<{ children: React.ReactNode; fallback: (error: Error) => React.ReactNode }, { hasError: boolean; error: Error | null }> {
+    constructor(props: any) {
+        super(props);
+        this.state = { hasError: false, error: null };
+    }
+
+    static getDerivedStateFromError(error: Error) {
+        return { hasError: true, error };
+    }
+
+    render() {
+        if (this.state.hasError && this.state.error) {
+            return this.props.fallback(this.state.error);
+        }
+        return this.props.children;
+    }
+}
 
 // Custom MDX components for rich rendering
 const mdxComponents = {
-    h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-        <h1 className="text-4xl font-display italic text-white mt-12 mb-6" {...props} />
-    ),
-    h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-        <h2 className="text-2xl font-display italic text-gold-500 mt-10 mb-4 border-b border-stone-800 pb-2" {...props} />
-    ),
-    h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-        <h3 className="text-xl font-bold text-white mt-8 mb-3" {...props} />
-    ),
-    p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-        <p className="text-stone-300 leading-relaxed mb-4" {...props} />
-    ),
-    ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
-        <ul className="list-disc list-inside text-stone-300 mb-6 space-y-2 pl-4" {...props} />
-    ),
+    h1: (props: any) => <h1 className="text-4xl font-display italic text-white mt-12 mb-6" {...props} />,
+    h2: (props: any) => <h2 className="text-2xl font-display italic text-white mt-10 mb-4 border-l-4 border-gold-500 pl-4" {...props} />,
+    h3: (props: any) => <h3 className="text-xl font-bold text-stone-200 mt-8 mb-3" {...props} />,
+    p: (props: any) => <p className="text-stone-400 leading-relaxed mb-6 text-lg" {...props} />,
+    ul: (props: any) => <ul className="list-none space-y-3 mb-8 ml-4" {...props} />,
     ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
         <ol className="list-decimal list-inside text-stone-300 mb-6 space-y-2 pl-4" {...props} />
     ),
-    li: (props: React.HTMLAttributes<HTMLLIElement>) => (
-        <li className="text-stone-300" {...props} />
+    li: (props: any) => (
+        <li className="flex gap-3 text-stone-400">
+            <span className="text-gold-500 mt-1.5 flex-shrink-0">•</span>
+            <span {...props} />
+        </li>
     ),
-    strong: (props: React.HTMLAttributes<HTMLElement>) => (
-        <strong className="text-white font-bold" {...props} />
+    strong: (props: any) => <strong className="font-black text-gold-400" {...props} />,
+    blockquote: (props: any) => (
+        <blockquote className="border-l-4 border-gold-500 bg-stone-800/50 p-6 my-8 rounded-r-2xl italic text-stone-300" {...props} />
     ),
-    blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
-        <blockquote className="border-l-4 border-gold-500 pl-6 py-2 my-6 italic text-stone-400 bg-stone-800/30 rounded-r-xl" {...props} />
-    ),
-    a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-        <a className="text-gold-500 hover:text-gold-400 underline underline-offset-2 transition-colors" {...props} />
-    ),
-    table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
-        <div className="overflow-x-auto my-6">
-            <table className="w-full text-left bg-stone-800 rounded-xl overflow-hidden" {...props} />
+    a: (props: any) => <a className="text-gold-500 font-bold hover:underline transition-all" {...props} />,
+    table: (props: any) => (
+        <div className="overflow-hidden my-10 rounded-3xl border border-stone-800 shadow-2xl bg-stone-900/50">
+            <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse min-w-[500px]" {...props} />
+            </div>
         </div>
     ),
-    thead: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
-        <thead className="bg-gold-500 text-stone-900" {...props} />
-    ),
-    th: (props: React.ThHTMLAttributes<HTMLTableHeaderCellElement>) => (
-        <th className="p-4 font-bold" {...props} />
-    ),
-    td: (props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => (
-        <td className="p-4 border-b border-stone-700 text-stone-300" {...props} />
-    ),
+    thead: (props: any) => <thead className="bg-stone-950/80 border-b border-stone-800" {...props} />,
+    tbody: (props: any) => <tbody className="divide-y divide-stone-800/50" {...props} />,
+    th: (props: any) => <th className="p-5 text-[10px] font-black uppercase tracking-[0.2em] text-gold-500 whitespace-nowrap" {...props} />,
+    tr: (props: any) => <tr className="group hover:bg-stone-800/30 transition-colors" {...props} />,
+    td: (props: any) => <td className="p-5 text-sm text-stone-300 leading-relaxed group-hover:text-stone-100 transition-colors align-top" {...props} />,
+};
+
+// Moving CTABanner outside to be stable
+const CTABanner = ({ text, link }: { text: string; link: string }) => {
+    const navigate = useNavigate();
+    return (
+        <div className="bg-gradient-to-r from-gold-500/20 to-amber-600/10 border border-gold-500/30 rounded-[2.5rem] p-10 my-12 text-center relative overflow-hidden group shadow-2xl">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+            <h4 className="text-white text-lg font-display italic mb-6 relative z-10">Pronta para profissionalizar seu salão?</h4>
+            <button
+                onClick={() => navigate(link)}
+                className="inline-flex items-center gap-3 bg-gold-500 text-stone-950 px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-xl shadow-gold-500/30 relative z-10"
+            >
+                {text} <ArrowRight size={16} />
+            </button>
+        </div>
+    );
 };
 
 const BlogDetail = () => {
     const { silo, slug } = useParams();
     const navigate = useNavigate();
 
-    console.log('[BlogDetail] Params:', { silo, slug });
-
     // Find post by slug in metadata
     const post = BLOG_POSTS.find(p => p.slug === slug);
-    const siloData = SILOS.find(s => s.id === silo);
-    console.log('[BlogDetail] Post found:', post?.title, 'ID:', post?.id);
+    const siloData = SILOS.find(s => s.id.toLowerCase() === silo?.toLowerCase());
 
     // Try to load MDX content
     const mdxContent = post ? getMdxById(post.id) : null;
     const MdxComponent = mdxContent?.Component;
-    console.log('[BlogDetail] MDX loaded:', !!MdxComponent, 'Content:', mdxContent);
-
-    // CTA Banner Component - defined inside BlogDetail to access navigate
-    const CTABanner = ({ text, link }: { text: string; link: string }) => (
-        <div className="bg-gradient-to-r from-gold-500/20 to-gold-600/10 border border-gold-500/30 rounded-2xl p-8 my-10 text-center">
-            <button
-                onClick={() => navigate(link)}
-                className="inline-flex items-center gap-3 bg-gold-500 text-stone-900 px-8 py-4 rounded-xl font-black uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-xl shadow-gold-500/20"
-            >
-                {text} <ArrowRight size={16} />
-            </button>
-        </div>
-    );
 
     // Merge CTABanner with other components
     const componentsWithCTA = {
         ...mdxComponents,
         CTABanner
     };
+
+    console.log('[BlogDetail] MDX loaded:', !!MdxComponent, 'ID:', post?.id);
 
     if (!post) {
         return (
@@ -150,15 +159,28 @@ const BlogDetail = () => {
                     </div>
 
                     {/* Content - MDX or Fallback */}
-                    <article className="prose prose-invert prose-gold max-w-none">
-                        {MdxComponent ? (
-                            <MDXProvider components={componentsWithCTA}>
-                                <MdxComponent />
-                            </MDXProvider>
+                    <article className="prose prose-invert prose-gold max-w-none min-h-[400px]">
+                        {post ? (
+                            MdxComponent ? (
+                                <ErrorBoundary fallback={(error) => (
+                                    <div className="p-8 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500">
+                                        <h3 className="font-bold mb-2">Erro ao renderizar conteúdo MDX:</h3>
+                                        <pre className="text-xs overflow-auto whitespace-pre-wrap">{error.message}</pre>
+                                        <div className="mt-4 text-xs opacity-50">Verifique se todos os componentes customizados estão mapeados.</div>
+                                    </div>
+                                )}>
+                                    <MdxComponent components={componentsWithCTA} />
+                                </ErrorBoundary>
+                            ) : (
+                                <div className="text-center py-20 text-stone-500 bg-stone-800/20 rounded-[3rem] border border-stone-800">
+                                    <BookOpen size={48} className="mx-auto mb-4 opacity-20" />
+                                    <p className="text-xl font-display italic">Artigo em Elaboração</p>
+                                    <p className="text-sm mt-2 opacity-60">O conteúdo id: {post.id} não foi carregado corretamente pelo sistema.</p>
+                                </div>
+                            )
                         ) : (
-                            <div className="text-center py-20 text-stone-500">
-                                <p>Conteúdo em desenvolvimento.</p>
-                                <p className="text-sm mt-2">Este artigo está sendo preparado pela equipe Trança Pro.</p>
+                            <div className="text-center py-20">
+                                <p>Artigo não identificado.</p>
                             </div>
                         )}
                     </article>
@@ -179,14 +201,14 @@ const BlogDetail = () => {
                         </div>
                     </div>
                 </div>
-            </main>
+            </main >
 
             <footer className="py-12 text-center border-t border-stone-800 mt-20">
                 <p className="text-[10px] text-stone-600 font-black uppercase tracking-[0.3em]">
                     © 2026 Trança Pro • Blog Oficial
                 </p>
             </footer>
-        </div>
+        </div >
     );
 };
 

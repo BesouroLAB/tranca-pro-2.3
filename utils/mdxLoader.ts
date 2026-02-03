@@ -1,19 +1,27 @@
+import React from 'react';
+
 // MDX Content Loader - Static Import Strategy
 // Maps slugs to dynamically imported MDX modules
 
 // Import all MDX files at build time (Vite glob import)
-// We use relative path to ensure Vite finds them regardless of root config
-const mdxModules = import.meta.glob(['/content/blog/**/*.mdx', '../content/blog/**/*.mdx'], { eager: true }) as Record<string, { default: React.ComponentType; frontmatter?: Record<string, unknown> }>;
+// Import all MDX files at build time (Vite glob import)
+const mdxModules = import.meta.glob([
+    '/content/blog/**/*.mdx',
+    './content/blog/**/*.mdx',
+    '../content/blog/**/*.mdx',
+    './src/content/blog/**/*.mdx'
+], { eager: true }) as Record<string, any>;
 
-console.log('[mdxLoader] MDX Modules loaded:', Object.keys(mdxModules).length);
-console.log('[mdxLoader] Paths:', Object.keys(mdxModules));
-
+console.log('--- MDX LOADER DEBUG ---');
+console.log('Total modules:', Object.keys(mdxModules).length);
+console.log('Keys found:', Object.keys(mdxModules));
+console.log('------------------------');
 if (Object.keys(mdxModules).length === 0) {
-    console.error('[mdxLoader] CRITICAL: No MDX modules found in /content/blog or ../content/blog. Check project structure.');
+    console.warn('[mdxLoader] WARNING: No MDX files found by Vite glob!');
 }
 
 export interface MDXContent {
-    Component: React.ComponentType;
+    Component: React.ComponentType<{ components?: Record<string, React.ComponentType<any> | React.FC<any>> }>;
     frontmatter: Record<string, unknown>;
 }
 
@@ -53,27 +61,36 @@ export function getMdxContent(silo: string, slug: string): MDXContent | null {
  */
 export function getMdxById(id: string): MDXContent | null {
     console.log('[getMdxById] Searching for ID:', id);
-    console.log('[getMdxById] Available paths:', Object.keys(mdxModules));
 
-    // Busca robusta por ID: procura arquivo que comece com o ID no nome
-    const matchingPath = Object.keys(mdxModules).find(path => {
-        const normalizedPath = path.replace(/\\/g, '/');
-        const filename = normalizedPath.split('/').pop() || '';
-        const matches = filename.startsWith(`${id}-`);
-        console.log(`[getMdxById] Testing: ${filename} -> ${matches}`);
-        return matches;
+    const matchingKey = Object.keys(mdxModules).find(key => {
+        const parts = key.split('/');
+        const filename = parts[parts.length - 1];
+        return filename.startsWith(`${id}-`);
     });
 
-    if (!matchingPath) {
-        console.error(`[getMdxById] MDX not found for ID: ${id}`);
-        console.error('[getMdxById] Available files:', Object.keys(mdxModules).map(p => p.split('/').pop()));
+    if (!matchingKey) {
+        console.error(`[getMdxById] No MDX found for ID: ${id}`);
         return null;
     }
 
-    console.log('[getMdxById] Found match:', matchingPath);
-    const module = mdxModules[matchingPath];
+    const module = mdxModules[matchingKey];
+
+    // Safety check for the component
+    // Sometimes mdx-bundler returns the component as 'default', sometimes as the module itself
+    let Component = module.default;
+
+    if (!Component && typeof module === 'function') {
+        Component = module;
+    }
+
+    if (!Component) {
+        console.error(`[getMdxById] Module found for ${id} but no default export or valid component found. Keys:`, Object.keys(module));
+        // Fallback: try to find anything that looks like a React component
+        Component = module.Content || module.Main || (() => React.createElement('div', null, 'Error: Invalid MDX exports'));
+    }
+
     return {
-        Component: module.default,
+        Component,
         frontmatter: module.frontmatter || {}
     };
 }
