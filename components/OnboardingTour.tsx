@@ -177,9 +177,7 @@ const OnboardingTour = () => {
     };
 
     const handleSkip = () => {
-        if (window.confirm("Deseja pular o tour?")) {
-            handleComplete();
-        }
+        handleComplete();
     };
 
     if (!isActive || !isReady || !spotlight) return null;
