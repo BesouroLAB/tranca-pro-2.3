@@ -85,6 +85,49 @@ const BlogHome = () => {
                 </div>
             </section>
 
+            {/* Cluster Navigation Cards */}
+            <section className="py-16 bg-stone-900">
+                <div className="container mx-auto px-6">
+                    <div className="text-center mb-12">
+                        <span className="text-xs font-black uppercase tracking-widest text-gold-500">Explore por Categoria</span>
+                        <h2 className="text-3xl md:text-4xl font-display italic text-white mt-2">Escolha Seu Caminho de Aprendizado</h2>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {SILOS.map((silo) => {
+                            const SiloIcon = silo.icon;
+                            const siloPostCount = BLOG_POSTS.filter(p => p.silo === silo.id).length;
+                            const pillarPost = BLOG_POSTS.find(p => p.silo === silo.id && p.type === 'pillar');
+
+                            return (
+                                <div
+                                    key={silo.id}
+                                    onClick={() => navigate(`/blog/${silo.id}`)}
+                                    className="group cursor-pointer bg-stone-800/30 border border-stone-700 rounded-3xl p-8 hover:border-gold-500/50 hover:bg-stone-800/50 transition-all duration-300"
+                                >
+                                    <div className={`w-16 h-16 rounded-2xl ${silo.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                                        <SiloIcon className={silo.color} size={32} />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-gold-400 transition-colors">
+                                        {silo.name}
+                                    </h3>
+                                    <p className="text-sm text-stone-400 mb-4 line-clamp-2">
+                                        {pillarPost?.excerpt || `Tudo sobre ${silo.name.toLowerCase()}`}
+                                    </p>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xs text-stone-500 font-bold uppercase tracking-wider">
+                                            {siloPostCount} artigos
+                                        </span>
+                                        <ArrowRight className="text-gold-500 group-hover:translate-x-1 transition-transform" size={16} />
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+
             {/* Silo Selection */}
             <section className="py-12 sticky top-20 z-40 bg-stone-900/90 backdrop-blur-sm border-b border-stone-800">
                 <div className="container mx-auto px-6 flex items-center gap-4 overflow-x-auto no-scrollbar pb-2">
