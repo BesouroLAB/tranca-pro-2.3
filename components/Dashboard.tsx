@@ -22,6 +22,12 @@ import { Appointment } from '../types';
 const Dashboard = () => {
    const { user } = useAuth();
    const navigate = useNavigate();
+
+   // Quick actions for dashboard
+   const quickActions = [
+      { icon: BookOpen, label: 'Hub de Conhecimento', path: '/aprender', color: 'from-blue-500 to-cyan-500' },
+      { icon: GraduationCap, label: 'Blog Técnico', path: '/blog', color: 'from-purple-500 to-pink-500' }
+   ];
    const [todaysAppointments, setTodaysAppointments] = useState<Appointment[]>([]);
    const [nextAppointments, setNextAppointments] = useState<Appointment[]>([]);
    const [displayValue, setDisplayValue] = useState(0);

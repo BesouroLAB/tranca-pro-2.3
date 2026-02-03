@@ -11,9 +11,8 @@ const MobileBottomNav = ({ onMenuClick }: MobileBottomNavProps) => {
 
     const navItems = [
         { icon: Home, label: 'Início', path: '/dashboard' },
-        { icon: Calendar, label: 'Agenda', path: '/agenda' },
-        { icon: Users, label: 'Clientes', path: '/clientes' },
         { icon: BarChart3, label: 'Relatórios', path: '/financeiro' },
+        { icon: Users, label: 'Clientes', path: '/clientes' },
     ];
 
     return (

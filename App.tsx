@@ -40,6 +40,7 @@ import Plans from './components/Plans';
 import SettingsPage from './components/SettingsPage';
 import MobileBottomNav from './components/MobileBottomNav';
 import Clientes from './components/Clientes';
+import Checkout from './components/Checkout';
 
 // Fix: Make children required as Layout is a wrapper
 const Layout = ({ children }: { children?: React.ReactNode }) => {
@@ -133,15 +134,21 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
         </nav>
 
         <div className="p-4 mt-auto">
-          <div className="bg-gradient-to-br from-gold-400 to-amber-600 rounded-xl p-6 text-white">
-            <p className="text-xs font-medium opacity-90 mb-2">Seja Premium</p>
-            <h3 className="font-bold text-sm mb-4">Desbloqueie tudo</h3>
+          <div className="bg-gradient-to-br from-gold-400 via-gold-500 to-amber-600 rounded-2xl p-6 text-white shadow-2xl shadow-gold-500/30 border-2 border-gold-300">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                <DollarSign size={18} className="text-amber-600" />
+              </div>
+              <p className="text-xs font-black uppercase tracking-widest text-white">Seja Premium</p>
+            </div>
+            <h3 className="font-black text-xl mb-3 text-white drop-shadow-md">Desbloqueie Tudo</h3>
+            <p className="text-xs text-amber-100 mb-4 font-medium">Acesso completo + IA ilimitada</p>
             <button
               onClick={() => {
-                navigate('/planos');
+                navigate('/checkout');
                 setIsSidebarOpen(false);
               }}
-              className="w-full bg-white text-amber-700 text-xs py-2 rounded-lg font-bold"
+              className="w-full bg-white text-amber-700 text-xs py-3 rounded-xl font-black uppercase tracking-widest hover:bg-amber-50 transition-all shadow-lg"
             >
               Ver Planos
             </button>
@@ -284,6 +291,7 @@ const App = () => {
               <Route path="/escaneamento/carreira" element={<ProfessionalScan />} />
               <Route path="/escaneamento/foto" element={<PhotoAnalysis />} />
               <Route path="/planos" element={<Plans />} />
+              <Route path="/checkout" element={<Checkout />} />
               <Route path="/configuracoes" element={<SettingsPage />} />
             </Routes>
           </Layout>
