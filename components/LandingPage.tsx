@@ -191,7 +191,7 @@ const LandingPage = () => {
                             </div>
 
                             <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[0.85] tracking-tighter text-white italic">
-                                A <span className="text-gold-500">Infraestrutura<sup className="text-3xl lg:text-5xl -top-8 ml-1">BR</sup> Digital</span> para Trancistas Profissionais.
+                                O <span className="text-gold-500">aplicativo<sup className="text-3xl lg:text-5xl -top-8 ml-1">BR</sup></span> para Trancistas Profissionais.
                             </h1>
 
                             <p className="text-xl sm:text-2xl text-stone-400 max-w-2xl leading-relaxed">
