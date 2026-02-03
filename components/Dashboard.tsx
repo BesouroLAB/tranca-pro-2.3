@@ -135,195 +135,133 @@ const Dashboard = () => {
             </p>
          </div>
 
-         {/* Main Grid */}
-         <div className="grid lg:grid-cols-12 gap-6">
-            {/* Left Column (Main Content) */}
-            <div className="lg:col-span-8 space-y-6">
-               {/* Hero Card - Today's Client */}
-               <section id="tour-dashboard-stats" className="bg-gradient-to-br from-stone-900 to-stone-800 border border-stone-700 p-4 md:p-6 rounded-[2.5rem] relative overflow-hidden shadow-2xl">
-                  <div className="relative z-10 space-y-4">
-                     <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold text-gold-500 uppercase tracking-widest mb-1 block">Fluxo de Hoje</span>
-                        <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Em Execução</h3>
-                     </div>
-                     <div className="flex flex-col items-end gap-1">
-                        <div className="bg-gold-500 text-stone-900 px-3 md:px-4 py-1.5 md:py-2 rounded-xl md:rounded-2xl text-lg md:text-xl font-black shadow-lg shadow-gold-500/20">
-                           14:30
-                        </div>
-                        <button onClick={() => navigate('/agenda')} className="text-[9px] md:text-[10px] text-stone-600 hover:text-white font-bold uppercase tracking-widest transition-colors">Ver Completa</button>
-                     </div>
+         {/* Bento Grid Layout (Mobile: 1 col, Tablet: 2 cols, Desktop: 4 cols) */}
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+
+            {/* [A] Next Appointment (Hero) - Span 2 cols */}
+            <section id="tour-dashboard-stats" className="md:col-span-2 bg-gradient-to-br from-stone-900 to-stone-800 border border-stone-700 p-5 rounded-[2.5rem] relative overflow-hidden shadow-2xl flex flex-col justify-between min-h-[280px]">
+               <div className="relative z-10 flex justify-between items-start">
+                  <div>
+                     <span className="text-[10px] font-bold text-gold-500 uppercase tracking-widest mb-1 block">Em Execução</span>
+                     <h3 className="text-2xl font-bold text-white tracking-tight leading-none">Mariana Silva</h3>
+                     <p className="text-xs text-stone-400 mt-1">Box Braids • 4.5h</p>
                   </div>
-
-                  <div className="flex gap-4 sm:gap-6 items-start relative z-10">
-                     <div className="w-20 h-20 md:w-32 md:h-32 rounded-2xl md:rounded-3xl overflow-hidden bg-stone-800 border-2 md:border-4 border-gold-500/10 relative shadow-2xl shrink-0">
-                        <img
-                           src="/images/client_mariana.png"
-                           alt="Mariana Silva"
-                           className="w-full h-full object-cover"
-                        />
-                     </div>
-                     <div className="space-y-1 md:space-y-2 text-left">
-                        <h4 className="font-bold text-white text-lg md:text-2xl tracking-tight leading-none">Mariana Silva</h4>
-                        <p className="text-[11px] md:text-sm text-stone-400 font-medium">Box Braids (Medium Length)</p>
-                        <div className="flex items-center justify-start gap-2 md:gap-4 pt-1 md:pt-2">
-                           <div className="bg-stone-800 px-2 md:px-3 py-1 md:py-1.5 rounded-lg flex items-center gap-1.5 text-[9px] md:text-xs font-bold text-stone-300 border border-stone-700">
-                              <Sparkles size={10} className="text-gold-500" /> 4.5h
-                           </div>
-                           <div className="bg-stone-800 px-2 md:px-3 py-1 md:py-1.5 rounded-lg flex items-center gap-1.5 text-[9px] md:text-xs font-bold text-stone-300 border border-stone-700">
-                              <DollarSign size={10} className="text-emerald-500" /> R$ 350
-                           </div>
-                        </div>
-                     </div>
+                  <div className="bg-stone-950/50 backdrop-blur-md border border-stone-700 px-3 py-1.5 rounded-xl">
+                     <span className="text-lg font-black text-white">14:30</span>
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 mt-4 relative z-10 w-full">
-                     <button className="py-3 md:py-4 rounded-xl md:rounded-2xl bg-stone-800/80 hover:bg-stone-800 text-white text-xs md:text-sm font-bold transition-all flex items-center justify-center gap-2 border border-stone-700/50 backdrop-blur-sm sm:order-last">
-                        <Smile size={18} /> Mensagem
-                     </button>
-                     <button onClick={() => navigate('/ia')} className="py-3 md:py-4 rounded-xl md:rounded-2xl bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-400 hover:to-amber-400 text-stone-950 text-xs md:text-sm font-bold transition-all flex flex-col items-center justify-center gap-0.5 shadow-[0_4px_12px_rgb(217,119,6,0.3)] relative group sm:order-first">
-                        <div className="flex items-center gap-2">
-                           <Sparkles size={16} /> <span>Atender com Zuri</span>
-                        </div>
-                        <span className="text-[9px] md:text-[10px] opacity-80 font-medium uppercase tracking-wider">Assistente IA Ativada</span>
-
-                        {/* Pulse Effect */}
-                        <div className="absolute inset-0 rounded-xl md:rounded-2xl ring-2 ring-gold-400/50 animate-ping opacity-0 group-hover:opacity-100 duration-1000"></div>
-                     </button>
-                  </div>
-
-                  {/* Decorative Gradient */}
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
-               </section>
-
-               {/* Checklist Diário */}
-               <section className="bg-stone-900/50 border border-stone-800 p-4 md:p-5 rounded-[2rem] shrink-0">
-                  <h3 className="text-[10px] font-bold text-stone-500 uppercase tracking-[0.2em] mb-3">Tarefas do Dia</h3>
-                  <div className="space-y-2">
-                     {[
-                        { label: 'Confirmar agendamentos', checked: true },
-                        { label: 'Verificar estoque de materiais', checked: false },
-                        { label: 'Comprar cabelo para próxima semana', checked: false },
-                        { label: 'Postar fotos no Instagram', checked: true }
-                     ].map((task, i) => (
-                        <label key={i} className="flex items-center gap-2.5 p-2.5 rounded-xl bg-stone-800/50 border border-stone-700/30 hover:bg-stone-800 transition-all cursor-pointer group">
-                           <input
-                              type="checkbox"
-                              defaultChecked={task.checked}
-                              className="w-4 h-4 rounded border-2 border-stone-600 checked:bg-gold-500 checked:border-gold-500 transition-all cursor-pointer"
-                           />
-                           <span className={`text-xs font-medium flex-1 ${task.checked ? 'text-stone-500 line-through' : 'text-stone-300'}`}>
-                              {task.label}
-                           </span>
-                        </label>
-                     ))}
-                  </div>
-                  <button onClick={() => navigate('/materiais')} className="w-full mt-3 py-2 rounded-lg bg-stone-800 hover:bg-stone-750 text-gold-500 text-[10px] font-bold uppercase tracking-wider transition-all border border-stone-700">
-                     Calculadora de Materiais →
-                  </button>
-               </section>
-
-               {/* Metric Cards Row (Context) */}
-               <div ref={metricsRef} className="grid grid-cols-2 gap-4 shrink-0">
-                  <button
-                     onClick={() => navigate('/financeiro')}
-                     className="bg-stone-900 border border-stone-800 p-5 rounded-[2rem] flex flex-col justify-between h-40 text-left active:scale-[0.98] transition-transform hover:bg-stone-800/50"
-                  >
-                     <div className="flex justify-between items-start text-stone-500">
-                        <span className="text-[11px] font-bold uppercase tracking-wider">Ganhos do Mês</span>
-                        <div className="p-2 bg-emerald-500/10 rounded-lg">
-                           <DollarSign size={14} className="text-emerald-500" />
-                        </div>
-                     </div>
-                     <div>
-                        <h4 className="text-2xl md:text-3xl font-bold text-emerald-500 tracking-tight leading-none mb-2">R$ {monthlyEarnings.toLocaleString('pt-BR')},00</h4>
-                        <p className="text-[10px] text-emerald-500 flex items-center gap-1 font-bold">
-                           <TrendingUp size={10} /> +12.5% <span className="text-stone-500 font-normal uppercase tracking-tighter">vs mês passado</span>
-                        </p>
-                     </div>
-                  </button>
-                  <button
-                     onClick={() => navigate('/agenda')}
-                     className="bg-stone-900 border border-stone-800 p-5 rounded-[2rem] flex flex-col justify-between h-40 text-left active:scale-[0.98] transition-transform hover:bg-stone-800/50"
-                  >
-                     <div className="flex justify-between items-start text-stone-500">
-                        <span className="text-[11px] font-bold uppercase tracking-wider">Agendamentos</span>
-                        <div className="p-2 bg-gold-500/10 rounded-lg">
-                           <Calendar size={14} className="text-gold-500" />
-                        </div>
-                     </div>
-                     <div>
-                        <h4 className="text-2xl md:text-3xl font-bold text-gold-500 tracking-tight leading-none mb-2">42</h4>
-                        <p className="text-[10px] text-emerald-500 flex items-center gap-1 font-bold">
-                           <TrendingUp size={10} /> +15% <span className="text-stone-500 font-normal uppercase tracking-tighter">da meta</span>
-                        </p>
-                     </div>
-                  </button>
                </div>
 
-               {/* Blog Card - Acesso Rápido */}
-               <button
-                  onClick={() => navigate('/blog')}
-                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 border-2 border-purple-400 p-6 rounded-[2rem] flex items-center justify-between text-left active:scale-[0.98] transition-all hover:shadow-2xl hover:shadow-purple-500/30 group"
-               >
-                  <div className="flex items-center gap-4">
-                     <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center">
-                        <GraduationCap size={28} className="text-white" />
+               <div className="relative z-10 flex gap-4 mt-4">
+                  <div className="w-16 h-16 rounded-2xl bg-stone-800 overflow-hidden border border-stone-600">
+                     <img src="/images/client_mariana.png" alt="Client" className="w-full h-full object-cover opacity-80" />
+                  </div>
+                  <div className="flex-1 space-y-2">
+                     <div className="flex gap-2">
+                        <span className="px-2 py-1 rounded-lg bg-stone-800 text-[10px] font-bold text-stone-300 border border-stone-700">R$ 350</span>
+                        <span className="px-2 py-1 rounded-lg bg-stone-800 text-[10px] font-bold text-stone-300 border border-stone-700">Confirmado</span>
                      </div>
-                     <div>
-                        <h4 className="text-lg font-black text-white mb-1">Blog Técnico</h4>
-                        <p className="text-xs text-purple-100 font-medium">Aprenda técnicas profissionais</p>
+                     <div className="flex gap-2">
+                        <button className="flex-1 py-1.5 bg-white text-stone-900 text-[10px] font-bold uppercase tracking-wide rounded-lg hover:bg-stone-200">Mensagem</button>
+                        <button onClick={() => navigate('/ia')} className="w-8 h-8 flex items-center justify-center bg-gold-500 text-stone-900 rounded-lg hover:bg-gold-400"><Sparkles size={14} /></button>
                      </div>
                   </div>
-                  <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M7 15L12 10L7 5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                     </svg>
-                  </div>
-               </button>
-            </div>
+               </div>
 
-            {/* Right Column (Quick Actions Sidebar) */}
-            <div className="lg:col-span-4 lg:h-full">
-               <section className="bg-stone-900/50 border border-stone-800 p-6 rounded-[2.5rem] lg:h-full lg:flex lg:flex-col">
-                  <h3 className="text-[11px] font-bold text-stone-500 px-1 uppercase tracking-[0.2em] mb-4">Módulos do Sistema</h3>
-                  <div className="grid grid-cols-2 lg:grid-cols-1 gap-4 lg:flex-1 lg:content-start">
-                     {[
-                        { icon: Calculator, label: 'Calculadora', desc: 'Estimar tempo e valor', path: '/precificacao' },
-                        { icon: BookOpen, label: 'Materiais', desc: 'Gerir estoque de cabelo', path: '/materiais' },
-                        { icon: Sparkles, label: 'Estúdio IA', desc: 'Visualizar estilos', path: '/ia' },
-                        { icon: DollarSign, label: 'Financeiro', desc: 'Lucro e despesas', path: '/financeiro' },
-                        { icon: GraduationCap, label: 'Aprender', desc: 'Blog e conteúdos', path: '/blog' },
-                     ].map((item, i) => (
-                        <button
-                           key={i}
-                           onClick={() => navigate(item.path)}
-                           className="bg-stone-900 border border-stone-800 p-4 lg:p-6 rounded-[2rem] flex flex-col lg:flex-row items-center lg:gap-4 text-center lg:text-left active:scale-95 transition-all hover:border-gold-500/20 hover:bg-stone-800/80 group"
-                        >
-                           <div className="w-12 h-12 lg:w-14 lg:h-14 bg-stone-800/50 rounded-2xl flex items-center justify-center mb-2 lg:mb-0 border border-stone-700/30 shadow-inner group-hover:bg-stone-800 group-hover:border-gold-500/30 transition-all">
-                              <item.icon size={20} className="text-gold-500" />
-                           </div>
-                           <div>
-                              <span className="text-sm font-bold text-stone-200 block group-hover:text-white">{item.label}</span>
-                              <span className="text-[10px] text-stone-500 font-bold uppercase tracking-tight group-hover:text-stone-400">{item.desc}</span>
-                           </div>
-                        </button>
-                     ))}
+               {/* Decorative */}
+               <div className="absolute top-0 right-0 w-40 h-40 bg-gold-500/10 rounded-full blur-[60px] translate-x-10 -translate-y-10"></div>
+            </section>
 
-                     {/* Desktop only extra items */}
-                     <div className="hidden lg:block mt-auto pt-4 border-t border-stone-800">
-                        <div className="bg-stone-800/50 rounded-2xl p-4 flex items-center gap-3">
-                           <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
-                              <Users size={18} className="text-green-500" />
-                           </div>
-                           <div>
-                              <p className="text-xs font-bold text-white">Expansão de Carteira</p>
-                              <p className="text-[10px] text-stone-500">+3 novos registros</p>
-                           </div>
-                        </div>
-                     </div>
+            {/* [B] Financial Summary - Span 1 col */}
+            <section onClick={() => navigate('/financeiro')} className="bg-stone-900/50 border border-stone-800 p-5 rounded-[2.5rem] hover:bg-stone-800/50 transition-colors cursor-pointer group flex flex-col justify-between h-full min-h-[200px]">
+               <div className="flex justify-between items-start">
+                  <div className="p-3 bg-emerald-500/10 rounded-2xl text-emerald-500 group-hover:scale-110 transition-transform">
+                     <DollarSign size={20} />
                   </div>
-               </section>
-            </div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500 py-1 px-2 bg-emerald-500/5 rounded-lg">+12.5%</span>
+               </div>
+               <div>
+                  <span className="text-[10px] font-bold text-stone-500 uppercase tracking-widest block mb-1">Faturamento Mês</span>
+                  <h3 className="text-2xl font-black text-white">R$ {monthlyEarnings.toLocaleString('pt-BR')}</h3>
+                  <p className="text-[10px] text-stone-600 mt-1">Meta: R$ 3.800,00</p>
+               </div>
+            </section>
+
+            {/* [C] Stock Alert (NEW) - Span 1 col */}
+            <section onClick={() => navigate('/materiais')} className="bg-stone-900/50 border border-stone-800 p-5 rounded-[2.5rem] hover:bg-stone-800/50 transition-colors cursor-pointer group flex flex-col justify-between h-full min-h-[200px]">
+               <div className="flex justify-between items-start">
+                  <div className="p-3 bg-red-500/10 rounded-2xl text-red-500 group-hover:scale-110 transition-transform">
+                     <BookOpen size={20} />
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-red-500 py-1 px-2 bg-red-500/5 rounded-lg animate-pulse">! Atenção</span>
+               </div>
+               <div>
+                  <span className="text-[10px] font-bold text-stone-500 uppercase tracking-widest block mb-1">Estoque Crítico</span>
+                  <h3 className="text-xl font-bold text-white leading-tight">Jumbo Preto</h3>
+                  <p className="text-[10px] text-stone-400 mt-1">Restam apenas 2 pacotes</p>
+               </div>
+            </section>
+
+            {/* [D] Daily Checklist - Span 2 cols (Vertical/List) */}
+            <section className="bg-stone-900 border border-stone-800 p-5 rounded-[2.5rem] flex flex-col md:col-span-2 lg:row-span-1">
+               <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xs font-bold text-stone-500 uppercase tracking-widest flex items-center gap-2">
+                     <ScanLine size={14} /> Tarefas do Dia
+                  </h3>
+                  <span className="text-[10px] font-bold text-stone-600 bg-stone-800 px-2 py-1 rounded-lg">2/4 Feito</span>
+               </div>
+               <div className="space-y-2 flex-1">
+                  {[
+                     { label: 'Confirmar Mariana (14:30)', checked: true },
+                     { label: 'Comprar Jumbo (Urgente)', checked: false },
+                     { label: 'Responder DM Instagram', checked: false }
+                  ].map((task, i) => (
+                     <label key={i} className="flex items-center gap-3 p-3 rounded-xl bg-stone-800/30 border border-stone-800 hover:bg-stone-800 transition-all cursor-pointer group">
+                        <input
+                           type="checkbox"
+                           defaultChecked={task.checked}
+                           className="w-4 h-4 rounded-md border-2 border-stone-600 checked:bg-gold-500 checked:border-gold-500 transition-all cursor-pointer"
+                        />
+                        <span className={`text-xs font-medium ${task.checked ? 'text-stone-500 line-through' : 'text-stone-300'}`}>
+                           {task.label}
+                        </span>
+                     </label>
+                  ))}
+               </div>
+            </section>
+
+            {/* [E] AI Assistant - Span 1 col */}
+            <section onClick={() => navigate('/ia')} className="bg-gradient-to-br from-purple-900/40 to-indigo-900/40 border border-purple-500/30 p-5 rounded-[2.5rem] hover:border-purple-500/60 transition-all cursor-pointer group flex flex-col justify-between h-full min-h-[180px]">
+               <div className="flex justify-between items-start">
+                  <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-300">
+                     <Sparkles size={18} />
+                  </div>
+                  <span className="px-2 py-1 bg-purple-500/10 rounded-lg text-[9px] font-bold text-purple-300 uppercase">Consultor IA</span>
+               </div>
+               <div>
+                  <p className="text-white font-bold text-sm leading-tight mb-2">Dúvida sobre qual pomada usar?</p>
+                  <p className="text-[10px] text-purple-300 font-medium">Pergunte para a Zuri →</p>
+               </div>
+            </section>
+
+            {/* [F] Quick Actions Grid - Span 1 col */}
+            <section className="bg-stone-900 border border-stone-800 p-5 rounded-[2.5rem] flex flex-col justify-between">
+               <span className="text-[10px] font-bold text-stone-500 uppercase tracking-widest mb-3 block">Ações Rápidas</span>
+               <div className="grid grid-cols-2 gap-2">
+                  <button onClick={() => navigate('/agenda')} className="flex flex-col items-center justify-center gap-1 p-3 bg-stone-800 rounded-2xl hover:bg-stone-700 transition-colors">
+                     <Calendar size={18} className="text-stone-300" />
+                     <span className="text-[8px] font-bold text-stone-400 uppercase">Novo</span>
+                  </button>
+                  <button onClick={() => navigate('/materiais')} className="flex flex-col items-center justify-center gap-1 p-3 bg-stone-800 rounded-2xl hover:bg-stone-700 transition-colors">
+                     <Calculator size={18} className="text-stone-300" />
+                     <span className="text-[8px] font-bold text-stone-400 uppercase">Calc</span>
+                  </button>
+                  <button onClick={() => navigate('/blog')} className="flex flex-col items-center justify-center gap-1 p-3 bg-stone-800 rounded-2xl hover:bg-stone-700 transition-colors col-span-2">
+                     <GraduationCap size={18} className="text-stone-300" />
+                     <span className="text-[8px] font-bold text-stone-400 uppercase">Aprender</span>
+                  </button>
+               </div>
+            </section>
+
          </div>
       </div>
    );
