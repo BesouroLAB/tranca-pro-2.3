@@ -391,7 +391,7 @@ const LandingPage = () => {
                     {/* Feature Cards Grid */}
                     <div className="grid lg:grid-cols-3 gap-8 mb-20">
                         {/* Card 1 */}
-                        <div className="group bg-white rounded-[2.5rem] p-10 shadow-xl border border-stone-200 hover:border-gold-500/30 hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500 relative overflow-hidden">
+                        <div className="group bg-white rounded-[2.5rem] p-10 shadow-xl border border-stone-200 hover:border-gold-500/30 hover:shadow-2xl hover:shadow-gold-500/10 hover:scale-[1.02] hover:-translate-y-2 transition-all duration-500 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-gold-500/10 to-transparent rounded-bl-full"></div>
                             <div className="w-16 h-16 bg-gradient-to-br from-gold-500 to-amber-600 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-gold-500/30 group-hover:scale-110 transition-transform">
                                 <Target size={28} />
@@ -423,7 +423,7 @@ const LandingPage = () => {
                         </div>
 
                         {/* Card 3 */}
-                        <div className="group bg-white rounded-[2.5rem] p-10 shadow-xl border border-stone-200 hover:border-gold-500/30 hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-500 relative overflow-hidden">
+                        <div className="group bg-white rounded-[2.5rem] p-10 shadow-xl border border-stone-200 hover:border-gold-500/30 hover:shadow-2xl hover:shadow-gold-500/10 hover:scale-[1.02] hover:-translate-y-2 transition-all duration-500 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-gold-500/10 to-transparent rounded-bl-full"></div>
                             <div className="w-16 h-16 bg-gradient-to-br from-gold-500 to-amber-600 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-gold-500/30 group-hover:scale-110 transition-transform">
                                 <MapPin size={28} />

@@ -13,7 +13,8 @@ import {
    Smile,
    Users,
    BarChart3,
-   User as UserIcon
+   User as UserIcon,
+   GraduationCap
 } from 'lucide-react';
 import { useAuth } from './AuthContext';
 import { Appointment } from '../types';
@@ -247,6 +248,7 @@ const Dashboard = () => {
                         { icon: BookOpen, label: 'Materiais', desc: 'Gerir estoque de cabelo', path: '/materiais' },
                         { icon: Sparkles, label: 'Estúdio IA', desc: 'Visualizar estilos', path: '/ia' },
                         { icon: DollarSign, label: 'Financeiro', desc: 'Lucro e despesas', path: '/financeiro' },
+                        { icon: GraduationCap, label: 'Aprender', desc: 'Blog e conteúdos', path: '/blog' },
                      ].map((item, i) => (
                         <button
                            key={i}
