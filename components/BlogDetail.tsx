@@ -6,6 +6,21 @@ import { MDXProvider } from '@mdx-js/react';
 import { BLOG_POSTS, SILOS, BlogPostMeta } from '../data/blogData';
 import { getMdxById } from '../utils/mdxLoader';
 
+// Custom CTA Banner Component
+const CTABanner = ({ text, link }: { text: string; link: string }) => {
+    const navigate = useNavigate();
+    return (
+        <div className="bg-gradient-to-r from-gold-500/20 to-gold-600/10 border border-gold-500/30 rounded-2xl p-8 my-10 text-center">
+            <button
+                onClick={() => navigate(link)}
+                className="inline-flex items-center gap-3 bg-gold-500 text-stone-900 px-8 py-4 rounded-xl font-black uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-xl shadow-gold-500/20"
+            >
+                {text} <ArrowRight size={16} />
+            </button>
+        </div>
+    );
+};
+
 // Custom MDX components for rich rendering
 const mdxComponents = {
     h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -52,17 +67,8 @@ const mdxComponents = {
     td: (props: React.TdHTMLAttributes<HTMLTableDataCellElement>) => (
         <td className="p-4 border-b border-stone-700 text-stone-300" {...props} />
     ),
-    // Custom CTA component
-    CTABanner: ({ text, link }: { text: string; link: string }) => (
-        <div className="bg-gradient-to-r from-gold-500/20 to-gold-600/10 border border-gold-500/30 rounded-2xl p-8 my-10 text-center">
-            <a
-                href={link}
-                className="inline-flex items-center gap-3 bg-gold-500 text-stone-900 px-8 py-4 rounded-xl font-black uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-xl shadow-gold-500/20"
-            >
-                {text} <ArrowRight size={16} />
-            </a>
-        </div>
-    )
+    // Pass CTABanner as a component
+    CTABanner
 };
 
 const BlogDetail = () => {
