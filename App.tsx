@@ -43,7 +43,10 @@ import Clientes from './components/Clientes';
 
 // Fix: Make children required as Layout is a wrapper
 const Layout = ({ children }: { children?: React.ReactNode }) => {
+  // CRITICAL: All hooks MUST be declared BEFORE any conditional returns
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showQuickAction, setShowQuickAction] = useState(false);
+  const mainRef = React.useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -51,6 +54,20 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
   const isLandingPage = location.pathname === '/';
   const isBlogPage = location.pathname.startsWith('/blog');
 
+  useEffect(() => {
+    const handleFabClick = () => setShowQuickAction(true);
+    window.addEventListener('fab-click', handleFabClick);
+    return () => window.removeEventListener('fab-click', handleFabClick);
+  }, []);
+
+  // Scroll to top on route change
+  useEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location.pathname]);
+
+  // Early return AFTER all hooks
   if (isLandingPage || isBlogPage) {
     return <>{children}</>;
   }
@@ -68,23 +85,6 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
     { icon: DollarSign, label: 'Planos', path: '/planos' },
     { icon: Settings, label: 'Configurações', path: '/configuracoes' },
   ];
-
-  const [showQuickAction, setShowQuickAction] = useState(false);
-
-  useEffect(() => {
-    const handleFabClick = () => setShowQuickAction(true);
-    window.addEventListener('fab-click', handleFabClick);
-    return () => window.removeEventListener('fab-click', handleFabClick);
-  }, []);
-
-  // Scroll to top on route change
-  const mainRef = React.useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (mainRef.current) {
-      mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [location.pathname]);
 
   return (
     <div className="flex h-screen fixed inset-0 overflow-hidden bg-stone-50 dark:bg-[#1c1917] text-stone-800 dark:text-stone-100 font-sans transition-colors duration-300">
