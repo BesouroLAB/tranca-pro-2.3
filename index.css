@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Base Styles for Trança Pro */
 :root {
   --gold-400: #fbbf24;
