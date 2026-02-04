@@ -141,7 +141,7 @@ const Inventory = () => {
                     <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-stone-800/10 rounded-full blur-2xl group-hover:bg-stone-800/20 transition-all"></div>
                 </div>
 
-                <div className="bg-orange-950/20 border border-orange-500/20 p-5 rounded-[2rem] relative overflow-hidden group">
+                <div className="bg-orange-500/10 border border-orange-500/30 p-5 rounded-[2rem] relative overflow-hidden group">
                     <div className="flex justify-between items-start relative z-10">
                         <span className="text-[10px] font-bold text-orange-500 uppercase tracking-widest">Estoque Baixo</span>
                         <AlertTriangle size={14} className="text-orange-500" />
@@ -159,12 +159,14 @@ const Inventory = () => {
                     <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-red-500/10 rounded-full blur-2xl group-hover:bg-red-500/20 transition-all"></div>
                 </div>
 
-                <div className="bg-emerald-950/20 border border-emerald-500/20 p-5 rounded-[2rem] relative overflow-hidden group">
+                <div className="bg-emerald-500/10 border border-emerald-500/30 p-5 rounded-[2rem] relative overflow-hidden group">
                     <div className="flex justify-between items-start relative z-10">
                         <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Ativo em Estoque</span>
                         <TrendingUp size={14} className="text-emerald-500" />
                     </div>
-                    <h3 className="text-xl font-black text-white mt-2 relative z-10">R$ {stats.value.toLocaleString('pt-BR')}</h3>
+                    <h3 className="text-xl font-black text-white mt-2 relative z-10">
+                        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(stats.value)}
+                    </h3>
                     <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all"></div>
                 </div>
             </div>
@@ -211,6 +213,12 @@ const Inventory = () => {
                             <div className="flex flex-col">
                                 <span className="text-[10px] font-bold text-stone-600 uppercase tracking-widest mb-1">Mínimo Ideal</span>
                                 <span className="text-sm font-bold text-stone-400">{item.minQuantity} {item.unit}</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-bold text-stone-600 uppercase tracking-widest mb-1">Preço Unit.</span>
+                                <span className="text-sm font-bold text-stone-400">
+                                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.price)}
+                                </span>
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-[10px] font-bold text-stone-600 uppercase tracking-widest mb-1">Qtd Atual</span>
@@ -271,23 +279,23 @@ const Inventory = () => {
             </div>
 
             {/* Smart Suggestions Call to Action */}
-            <div className="bg-gradient-to-r from-stone-900 to-amber-950/20 border border-amber-500/20 p-8 rounded-[3rem] shadow-2xl relative overflow-hidden group mt-12">
+            <div className="bg-gradient-to-r from-stone-900 to-gold-950/30 border border-gold-500/30 p-8 rounded-[3rem] shadow-2xl relative overflow-hidden group mt-12">
                 <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
                     <div className="space-y-2">
                         <div className="flex items-center gap-2 justify-center md:justify-start">
-                            <TrendingUp className="text-amber-500" size={20} />
-                            <span className="text-[10px] font-black text-amber-500 uppercase tracking-widest">Sugestão de Compra</span>
+                            <TrendingUp className="text-gold-500" size={20} />
+                            <span className="text-[10px] font-black text-gold-500 uppercase tracking-widest">Sugestão de Compra</span>
                         </div>
                         <h3 className="text-2xl font-bold text-white tracking-tight leading-tight">Zuri identificou necessidade <br /> de reposição imediata.</h3>
                         <p className="text-stone-400 text-sm max-w-md">3 itens estão abaixo do mínimo tolerável para manter sua agenda de Novembro.</p>
                     </div>
-                    <button onClick={() => navigate('/materiais')} className="bg-amber-500 text-stone-950 px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-amber-400 transition-all active:scale-95 shadow-xl shadow-amber-500/10">
+                    <button onClick={() => navigate('/materiais')} className="bg-gold-500 text-stone-950 px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-gold-400 transition-all active:scale-95 shadow-xl shadow-gold-500/20">
                         Gerar Lista de Compras
                         <ChevronRight size={16} />
                     </button>
                 </div>
                 {/* Visual decoration */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
             </div>
         </div>
     );

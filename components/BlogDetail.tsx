@@ -175,7 +175,7 @@ const BlogDetail = () => {
                                 <div className="text-center py-20 text-stone-500 bg-stone-800/20 rounded-[3rem] border border-stone-800">
                                     <BookOpen size={48} className="mx-auto mb-4 opacity-20" />
                                     <p className="text-xl font-display italic">Artigo em Elaboração</p>
-                                    <p className="text-sm mt-2 opacity-60">O conteúdo id: {post.id} não foi carregado corretamente pelo sistema.</p>
+                                    <p className="text-sm mt-2 opacity-60">Este conteúdo está sendo preparado e estará disponível em breve.</p>
                                 </div>
                             )
                         ) : (

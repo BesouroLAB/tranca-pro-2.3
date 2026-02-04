@@ -22,11 +22,24 @@ export default {
                     700: '#44403c',
                     800: '#292524',
                     900: '#1c1917',
+                    950: '#0c0a09',
                 },
                 gold: {
-                    400: '#fbbf24',
-                    500: '#f59e0b',
-                    600: '#d97706',
+                    400: '#FFD700', // Metallic Gold
+                    500: '#F59E0B', // Vibrant Amber/Gold
+                    600: '#D97706', // Darker Gold
+                    950: '#451a03', // Deep Dark Gold/Bronze
+                },
+                orange: {
+                    50: '#fff7ed',
+                    100: '#ffedd5',
+                    200: '#fed7aa',
+                    300: '#fdba74',
+                    400: '#fb923c',
+                    500: '#f97316', // Standard vibrant orange
+                    600: '#ea580c',
+                    700: '#c2410c',
+                    950: '#431407',
                 }
             },
             fontFamily: {

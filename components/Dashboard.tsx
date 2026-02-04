@@ -14,7 +14,8 @@ import {
    Users,
    BarChart3,
    User as UserIcon,
-   GraduationCap
+   GraduationCap,
+   Package
 } from 'lucide-react';
 import { useAuth } from './AuthContext';
 import { Appointment } from '../types';
@@ -109,11 +110,11 @@ const Dashboard = () => {
          try {
             const parsedTransactions = JSON.parse(savedTransactions);
             if (Array.isArray(parsedTransactions)) {
-               const totalIncome = parsedTransactions.filter((t: any) => t.type === 'income').reduce((acc, t) => acc + t.value, 0);
-               const totalExpense = parsedTransactions.filter((t: any) => t.type === 'expense').reduce((acc, t) => acc + t.value, 0);
-               const realBalance = totalIncome - totalExpense;
+               const cleanTransactions = parsedTransactions.filter(t => t && typeof t === 'object');
+               const totalIncome = cleanTransactions
+                  .filter((t: any) => t.type === 'income')
+                  .reduce((acc, t) => acc + (Number(t.value) || 0), 0);
 
-               // Store calculated Revenue (Faturamento) for animation
                setMonthlyEarnings(totalIncome);
             }
          } catch (e) {
@@ -127,13 +128,14 @@ const Dashboard = () => {
          try {
             const allAppts = JSON.parse(saved);
             if (Array.isArray(allAppts)) {
+               const cleanAppts = allAppts.filter(a => a && typeof a === 'object' && a.date && a.time) as Appointment[];
                const today = new Date().toISOString().split('T')[0];
 
-               const todayList = (allAppts as Appointment[])
+               const todayList = cleanAppts
                   .filter(a => a.date === today)
                   .sort((a, b) => a.time.localeCompare(b.time));
 
-               const nextList = (allAppts as Appointment[])
+               const nextList = cleanAppts
                   .filter(a => a.date > today)
                   .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
                   .slice(0, 3);
@@ -180,27 +182,28 @@ const Dashboard = () => {
                   <div className="relative w-20 h-20 md:w-24 md:h-24 transition-transform group-hover:scale-105 duration-500">
                      <div className="absolute inset-0 bg-gold-500/20 rounded-full blur-2xl"></div>
                      <img src="/images/client_mariana.png" alt="Client" className="w-full h-full rounded-full object-cover border-4 border-stone-800 shadow-xl relative z-10" />
-                     <div className="absolute -bottom-1 -right-1 bg-stone-900 text-gold-500 text-[10px] font-bold px-2 py-0.5 rounded-full border border-stone-700 z-20 shadow-lg">VIP</div>
                   </div>
                </div>
 
-               <div className="relative z-10 flex flex-col md:flex-row items-end gap-4 mt-6">
-                  <div className="flex-1 w-full grid grid-cols-2 gap-3">
-                     <div className="bg-stone-800/50 p-3 rounded-2xl border border-stone-700/50 backdrop-blur-sm">
-                        <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block mb-1">Horário</span>
-                        <span className="text-xl font-black text-white">14:30</span>
+               <div className="relative z-10 flex flex-col md:flex-row items-center gap-4 mt-6">
+                  <div className="flex-1 w-full grid grid-cols-2 gap-3 text-center md:text-left">
+                     <div className="bg-stone-800/50 h-14 px-4 rounded-xl border border-stone-700/50 backdrop-blur-sm flex flex-col justify-center">
+                        <span className="text-[9px] font-bold text-stone-500 uppercase tracking-wider block">Horário</span>
+                        <span className="text-lg font-black text-white">14:30</span>
                      </div>
-                     <div className="bg-stone-800/50 p-3 rounded-2xl border border-stone-700/50 backdrop-blur-sm">
-                        <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block mb-1">Valor</span>
-                        <span className="text-xl font-black text-emerald-400">R$ 350</span>
+                     <div className="bg-stone-800/50 h-14 px-4 rounded-xl border border-stone-700/50 backdrop-blur-sm flex flex-col justify-center">
+                        <span className="text-[9px] font-bold text-stone-500 uppercase tracking-wider block">Valor</span>
+                        <span className="text-lg font-black text-emerald-400">R$ 350</span>
                      </div>
                   </div>
 
-                  <div className="flex gap-2 w-full md:w-auto">
-
-                     <button onClick={() => navigate('/ia')} className="flex-1 md:flex-none h-12 px-6 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20 transition-all active:scale-95 hover:shadow-indigo-500/40">
+                  <div className="w-full md:w-auto">
+                     <button
+                        onClick={() => navigate('/ia')}
+                        className="w-full md:w-auto h-14 px-6 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20 transition-all active:scale-95 hover:shadow-indigo-500/40"
+                     >
                         <Sparkles size={18} />
-                        <span className="text-xs uppercase tracking-wide">AJUDA DA ZURI</span>
+                        <span className="text-[10px] uppercase tracking-widest">AJUDA DA ZURI</span>
                      </button>
                   </div>
                </div>
@@ -249,7 +252,7 @@ const Dashboard = () => {
             </section>
 
             {/* [B] CRM Widget (NEW) - Span 1 col */}
-            <section onClick={() => navigate('/crm')} className="bg-rose-950/20 border border-rose-500/20 p-6 rounded-[2.5rem] hover:border-rose-500/40 transition-all cursor-pointer group flex flex-col justify-between h-full min-h-[200px] md:order-2 relative overflow-hidden shadow-xl shadow-rose-900/10 hover:shadow-rose-900/20">
+            <section onClick={() => navigate('/crm')} className="bg-rose-500/10 border border-rose-500/30 p-6 rounded-[2.5rem] hover:border-rose-500/40 transition-all cursor-pointer group flex flex-col justify-between h-full min-h-[200px] md:order-2 relative overflow-hidden shadow-xl shadow-rose-900/10 hover:shadow-rose-900/20">
                <div className="flex justify-between items-start relative z-10">
                   <div className="p-3 bg-rose-500/10 rounded-2xl text-rose-400 group-hover:scale-110 transition-transform border border-rose-500/10 shadow-inner">
                      <Users size={24} />
@@ -271,7 +274,7 @@ const Dashboard = () => {
             </section>
 
             {/* [C] Financial Summary - Span 1 col */}
-            <section onClick={() => navigate('/financeiro')} className="bg-emerald-950/20 border border-emerald-500/20 p-6 rounded-[2.5rem] hover:border-emerald-500/40 transition-all cursor-pointer group flex flex-col justify-between h-full min-h-[200px] md:order-3 relative overflow-hidden shadow-xl shadow-emerald-900/10 hover:shadow-emerald-900/20">
+            <section onClick={() => navigate('/financeiro')} className="bg-emerald-500/10 border border-emerald-500/30 p-6 rounded-[2.5rem] hover:border-emerald-500/40 transition-all cursor-pointer group flex flex-col justify-between h-full min-h-[200px] md:order-3 relative overflow-hidden shadow-xl shadow-emerald-900/10 hover:shadow-emerald-900/20">
                <div className="flex justify-between items-start relative z-10">
                   <div className="p-3 bg-emerald-500/10 rounded-2xl text-emerald-400 group-hover:scale-110 transition-transform border border-emerald-500/10 shadow-inner">
                      <DollarSign size={24} />
@@ -323,20 +326,20 @@ const Dashboard = () => {
             </section>
 
             {/* [F] Stock Alert - Span 1 col */}
-            <section onClick={() => navigate('/estoque')} className="bg-red-950/20 border border-red-500/20 p-6 rounded-[2.5rem] hover:border-red-500/40 transition-all cursor-pointer group flex flex-col justify-between h-full min-h-[180px] md:order-6 relative overflow-hidden shadow-xl shadow-red-900/10">
+            <section onClick={() => navigate('/estoque')} className="bg-orange-500/10 border border-orange-500/30 p-6 rounded-[2.5rem] hover:border-orange-500/40 transition-all cursor-pointer group flex flex-col justify-between h-full min-h-[180px] md:order-6 relative overflow-hidden shadow-xl shadow-orange-900/10">
                <div className="flex justify-between items-start relative z-10">
-                  <div className="p-2.5 bg-red-500/10 rounded-xl text-red-500 group-hover:scale-110 transition-transform border border-red-500/10 shadow-inner">
-                     <BookOpen size={20} />
+                  <div className="p-2.5 bg-orange-500/10 rounded-xl text-orange-500 group-hover:scale-110 transition-transform border border-orange-500/10 shadow-inner">
+                     <Package size={20} />
                   </div>
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-red-500 py-1 px-2 bg-red-500/5 rounded-lg border border-red-500/10 animate-pulse">! Crítico</span>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-orange-500 py-1 px-2 bg-orange-500/5 rounded-lg border border-orange-500/10 animate-pulse">! Crítico</span>
                </div>
                <div className="relative z-10">
                   <span className="text-[10px] font-bold text-stone-500 uppercase tracking-widest block mb-1">Controle de Estoque</span>
                   <h3 className="text-lg font-black text-white leading-tight">Jumbo Preto</h3>
-                  <p className="text-[10px] text-red-400 mt-1 font-medium">Restam 2 pacotes</p>
+                  <p className="text-[10px] text-orange-400 mt-1 font-medium">Restam 2 pacotes</p>
                </div>
                {/* Decorative blob */}
-               <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-[40px] group-hover:bg-red-500/10 transition-all"></div>
+               <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 rounded-full blur-[40px] group-hover:bg-orange-500/10 transition-all"></div>
             </section>
 
             {/* [G] Quick Actions + Knowledge - Span 4 cols (Row 3) */}
